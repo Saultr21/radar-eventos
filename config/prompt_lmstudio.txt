@@ -1,0 +1,25 @@
+Extrae eventos empresariales de Canarias de {source_name}.
+Fuente principal: {source_url}
+Rango de fechas: {today_str} a {horizon}
+IMPORTANTE: incluye eventos cuya fecha sea {today_str} o posterior, aunque el evento ya haya comenzado hoy.
+
+INSTRUCCIONES:
+1. Llama fetch_url sobre la URL principal para ver el contenido y los discovered_links.
+2. Si en el contenido ya ves eventos/cursos CON fechas en el rango, extrae directamente y devuelve el JSON.
+3. Si los eventos no tienen fecha visible pero hay discovered_links con URLs de cursos o eventos, llama fetch_url sobre esas URLs para obtener las fechas (maximo 4 URLs adicionales).
+4. NO uses search_source_pages si ya tienes discovered_links o contenido suficiente.
+5. En cuanto tengas la informacion necesaria, para de llamar herramientas y devuelve el JSON.
+
+Devuelve UNICAMENTE un JSON array con objetos que tengan exactamente estos campos:
+title, type, date, time, location, description, url, price, deadline, association, category
+
+Reglas:
+- no inventes URLs
+- solo puedes usar fetch_url sobre: la URL principal, discovered_links de una respuesta previa de fetch_url
+- association debe ser {source_name}
+- category debe ser {source_category}
+- type debe ser uno de: evento, formacion, networking, jornada, feria, mision, otro
+- date debe tener formato DD/MM/YYYY (o rango DD/MM/YYYY-DD/MM/YYYY)
+- description debe ser breve, maximo 150 caracteres
+- si no encuentras eventos en el rango, devuelve []
+- no devuelvas markdown, razonamiento ni texto adicional, solo el JSON array

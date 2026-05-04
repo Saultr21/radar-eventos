@@ -1,0 +1,8 @@
+RADAR DE EVENTOS EMPRESARIALES — CANARIAS BDN
+Escaneo: {scan_date}
+Nuevos eventos: {total_events}
+Fuentes con actividad: {sources_count}
+Ventana: {days_ahead} dias
+============================================================
+
+{event_lines}

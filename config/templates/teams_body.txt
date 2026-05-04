@@ -1,0 +1,11 @@
+**Radar de Eventos Empresariales**
+
+Escaneo: {scan_date}
+
+Nuevos eventos: {total_events}
+
+Fuentes con actividad: {sources_count}
+
+Ventana: proximos {days_ahead} dias
+
+{event_lines}
