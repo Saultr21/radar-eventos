@@ -48,6 +48,9 @@
   .chip-loc      { background: #f0fdf4; color: #15803d; }
   .chip-price    { background: #fefce8; color: #a16207; }
   .chip-deadline { background: #fff7ed; color: #c2410c; }
+  .chip-url      { background: #f8fafc; color: #475569; max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
+  .chip-url a    { color: #475569; text-decoration: none; }
+  .chip-url a:hover { color: #3b82f6; text-decoration: underline; }
 
   /* ── Badges de tipo ── */
   .badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
@@ -130,6 +133,7 @@
           <th onclick="setSortCol('association')">Asociación <span class="sort-icon">▲</span></th>
           <th onclick="setSortCol('location')">Lugar <span class="sort-icon">▲</span></th>
           <th onclick="setSortCol('price')">Precio <span class="sort-icon">▲</span></th>
+          <th>URL</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -232,6 +236,7 @@ function renderCards(evs) {
         ${e.location !== '—' ? `<span class="chip chip-loc">📍 ${esc(e.location)}</span>` : ''}
         ${e.price    !== '—' ? `<span class="chip chip-price">💶 ${esc(e.price)}</span>` : ''}
         ${e.deadline          ? `<span class="chip chip-deadline">⏰ Inscr. ${esc(e.deadline)}</span>` : ''}
+        ${e.url ? `<span class="chip chip-url">🔗 <a href="${e.url}" target="_blank" rel="noopener">${e.url}</a></span>` : ''}
       </div>
     </div>
   `).join('');
@@ -240,12 +245,12 @@ function renderCards(evs) {
 function renderTable(evs) {
   const tb = document.getElementById('tbody');
   if (!evs.length) {
-    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#94a3b8">Sin resultados</td></tr>';
+    tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#94a3b8">Sin resultados</td></tr>';
     return;
   }
   tb.innerHTML = evs.map(e => `
     <tr>
-      <td class="td-date">${e.date}${e.time ? ' · ' + e.time : ''}</td>
+      <td class="td-date">${e.date}${e.time ? ' &middot; ' + e.time : ''}</td>
       <td class="td-title">
         ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${esc(e.title)}</a>` : esc(e.title)}
         ${e.description
@@ -256,6 +261,9 @@ function renderTable(evs) {
       <td class="td-assoc">${esc(e.association)}</td>
       <td class="td-loc" title="${esc(e.location)}">${esc(e.location)}</td>
       <td class="td-price">${e.price !== '—' ? esc(e.price) : '<span style="color:#cbd5e1">—</span>'}</td>
+      <td style="padding:10px 14px;font-size:11px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+        ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener" style="color:#475569;text-decoration:none" title="${esc(e.url)}">🔗 ${esc(e.url)}</a>` : '<span style="color:#cbd5e1">—</span>'}
+      </td>
     </tr>
   `).join('');
 }
