@@ -1,14 +1,20 @@
 {
   // ── Proveedor LLM ─────────────────────────────────────────────────────────
   "llm_provider": "lmstudio",        // lmstudio | anthropic | openrouter
-  "model": "qwen/qwen3.5-9b",        // nombre del modelo tal como aparece en LM Studio
+  "model": "qwen3.5-9b",        // nombre del modelo tal como aparece en LM Studio
 
   // ── LM Studio ─────────────────────────────────────────────────────────────
-  "lmstudio_base_url": "http://localhost:1234/v1",  // URL de la API de LM Studio
+  "lmstudio_base_url": "http://192.168.1.166:1234/v1",  // URL de la API de LM Studio
   "lmstudio_api_mode": "project-mcp",               // project-mcp (recomendado) | native-mcp
   "lmstudio_context_window": 34096,  // ventana de contexto del modelo en tokens
+  "lmstudio_model_ttl": 7200,        // segundos que LM Studio mantiene el modelo cargado (JIT TTL)
   "lmstudio_web_mcp_port": 8765,     // puerto del servidor MCP local que arranca el scanner
-  "lmstudio_fetch_chars": 6000,      // máximo de caracteres por descarga de página web
+  "lmstudio_fetch_chars": 12000,     // máximo de caracteres por descarga de página web
+  "lmstudio_tool_result_chars": 6000,// máximo de chars que se devuelven al modelo por tool call
+  "lmstudio_tool_rounds": 6,         // máximo de rondas de tool calls antes de forzar respuesta final
+  "extractor_mode": "structured",    // structured (recomendado) | tool-loop (legacy)
+  "extractor_max_subpages": 3,       // páginas adicionales a descargar por fuente en modo structured
+  "extractor_per_page_chars": 6000,  // máximo de chars por página en el contexto del LLM
 
   // ── Escaneo ───────────────────────────────────────────────────────────────
   "days_ahead": 30,                  // ventana de búsqueda: eventos hasta N días desde hoy
@@ -18,13 +24,13 @@
   "cache_retention_days": 90,        // días que se conservan eventos en caché antes de purgarlos
 
   // ── Notificaciones ────────────────────────────────────────────────────────
-  "notification_channel": "teams",   // teams | email
-  "max_tokens": 1500,                // máximo de tokens en la respuesta del modelo
+  "notification_channel": "none",    // teams | email | none (desactiva envío)
+  "max_tokens": 4000,                // máximo de tokens en la respuesta del modelo
 
   // ── Rutas de archivos (relativas a la raíz del proyecto) ──────────────────
   "known_events_file": "data/known_events.json",
-  "prompt_file": "config/prompt.txt",
-  "lmstudio_prompt_file": "config/prompt_lmstudio.txt",
+  "prompt_file": "config/prompts/prompt.txt",
+  "lmstudio_prompt_file": "config/prompts/prompt_lmstudio.txt",
   "sources_file": "config/sources.json",
   "report_html_file": "config/templates/report_html.html",
 

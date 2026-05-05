@@ -1,0 +1,396 @@
+2026-05-05 11:11:46 [INFO    ] __main__  ============================================================
+2026-05-05 11:11:46 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:11:46 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:11:46 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:11:46 [INFO    ] __main__    Workers       : 4
+2026-05-05 11:11:46 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:11:46 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:11:46 [INFO    ] __main__  ============================================================
+2026-05-05 11:11:46 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:11:46 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Tenerife                    https://camaratenerife.com/agenda/
+2026-05-05 11:11:46 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Lanzarote                   https://camaralanzarote.org/agenda/
+2026-05-05 11:11:46 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Fuerteventura               https://camarafuerteventura.org/
+2026-05-05 11:11:48 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:11:53 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 11:26:43 [INFO    ] __main__  ============================================================
+2026-05-05 11:26:43 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:26:43 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:26:43 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:26:43 [INFO    ] __main__    Workers       : 4
+2026-05-05 11:26:43 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:26:43 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:26:43 [INFO    ] __main__  ============================================================
+2026-05-05 11:26:43 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:26:43 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Tenerife                    https://camaratenerife.com/agenda/
+2026-05-05 11:26:43 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Lanzarote                   https://camaralanzarote.org/agenda/
+2026-05-05 11:26:43 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Fuerteventura               https://camarafuerteventura.org/
+2026-05-05 11:26:44 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:26:51 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 11:28:51 [WARNING ] __main__  ↺  Cámara de Comercio Fuerteventura               reintento 1/2 (128.2s): timed out
+2026-05-05 11:28:51 [WARNING ] __main__  ↺  Cámara de Comercio Tenerife                    reintento 1/2 (128.3s): timed out
+2026-05-05 11:28:51 [WARNING ] __main__  ↺  Cámara de Comercio Lanzarote                   reintento 1/2 (128.3s): timed out
+2026-05-05 11:28:51 [WARNING ] __main__  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (128.3s): timed out
+2026-05-05 11:31:49 [INFO    ] __main__  ============================================================
+2026-05-05 11:31:49 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:31:49 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:31:49 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:31:49 [INFO    ] __main__    Workers       : 4
+2026-05-05 11:31:49 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:31:49 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:31:49 [INFO    ] __main__  ============================================================
+2026-05-05 11:31:49 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:31:49 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Tenerife                    https://camaratenerife.com/agenda/
+2026-05-05 11:31:49 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Lanzarote                   https://camaralanzarote.org/agenda/
+2026-05-05 11:31:49 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Fuerteventura               https://camarafuerteventura.org/
+2026-05-05 11:31:50 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:31:59 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 11:38:39 [WARNING ] __main__  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (410.2s): timed out
+2026-05-05 11:40:04 [INFO    ] __main__  –  Cámara de Comercio Tenerife                    sin eventos  (495.3s)
+2026-05-05 11:40:04 [INFO    ] __main__  ⟳  Escaneando Confederación Canaria de Empresarios (CCE)     https://ccelpa.org/
+2026-05-05 11:40:04 [INFO    ] __main__    [1/54]  encontrados: 0  |  total acumulado: 0  |  ETA ~26253s
+2026-05-05 11:42:17 [INFO    ] __main__  ============================================================
+2026-05-05 11:42:17 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:42:17 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:42:17 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:42:17 [INFO    ] __main__    Workers       : 4
+2026-05-05 11:42:17 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:42:17 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:42:17 [INFO    ] __main__  ============================================================
+2026-05-05 11:42:17 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:42:17 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Tenerife                    https://camaratenerife.com/agenda/
+2026-05-05 11:42:17 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Lanzarote                   https://camaralanzarote.org/agenda/
+2026-05-05 11:42:17 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Fuerteventura               https://camarafuerteventura.org/
+2026-05-05 11:42:19 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:42:24 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 11:43:11 [INFO    ] __main__  ✔  Confederación Canaria de Empresarios (CCE)     3 evento(s)  (186.7s)
+2026-05-05 11:43:11 [INFO    ] __main__  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 11:43:11 [INFO    ] __main__    [2/54]  encontrados: 3  |  total acumulado: 3  |  ETA ~17733s
+2026-05-05 11:44:38 [INFO    ] __main__  ============================================================
+2026-05-05 11:44:38 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:44:38 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:44:38 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:44:38 [INFO    ] __main__    Workers       : 1
+2026-05-05 11:44:38 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:44:38 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:44:38 [INFO    ] __main__  ============================================================
+2026-05-05 11:44:38 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:44:39 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:44:48 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 11:48:38 [INFO    ] __main__  ============================================================
+2026-05-05 11:48:38 [INFO    ] __main__    RADAR EVENTOS — inicio de escaneo
+2026-05-05 11:48:38 [INFO    ] __main__    Proveedor LLM : lmstudio
+2026-05-05 11:48:38 [INFO    ] __main__    Fuentes       : 54
+2026-05-05 11:48:38 [INFO    ] __main__    Workers       : 4
+2026-05-05 11:48:38 [INFO    ] __main__    Horizonte     : 30 días
+2026-05-05 11:48:38 [INFO    ] __main__    Log guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\logs\scanner_2026-05-05.log
+2026-05-05 11:48:38 [INFO    ] __main__  ============================================================
+2026-05-05 11:48:38 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 11:48:38 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Tenerife                    https://camaratenerife.com/agenda/
+2026-05-05 11:48:38 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Lanzarote                   https://camaralanzarote.org/agenda/
+2026-05-05 11:48:38 [INFO    ] __main__  ⟳  Escaneando Cámara de Comercio Fuerteventura               https://camarafuerteventura.org/
+2026-05-05 11:48:40 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 11:48:46 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 12:13:42 [INFO    ] test_report  ============================================================
+2026-05-05 12:13:42 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 12:13:42 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 12:13:42 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 12:13:42 [INFO    ] test_report  ============================================================
+2026-05-05 12:13:42 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 12:13:42 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 12:13:42 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 12:13:42 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/
+2026-05-05 12:13:44 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 12:13:49 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 12:16:08 [WARNING ] scanner  ↺  CEOE Tenerife                                  reintento 1/2 (145.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:16:08 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 1/2 (145.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:16:08 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (145.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:16:08 [WARNING ] scanner  ↺  Clúster Marítimo de Canarias (CMC)             reintento 1/2 (145.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:19:22 [INFO    ] test_report  ============================================================
+2026-05-05 12:19:22 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 12:19:22 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 12:19:22 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 12:19:22 [INFO    ] test_report  ============================================================
+2026-05-05 12:19:22 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 12:19:22 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 12:19:22 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 12:19:22 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/
+2026-05-05 12:19:23 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 12:19:28 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 12:20:57 [INFO    ] scanner  ✔  CEOE Tenerife                                  3 evento(s)  (95.1s)
+2026-05-05 12:21:03 [WARNING ] scanner  ↺  Clúster Marítimo de Canarias (CMC)             reintento 1/2 (100.8s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:21:03 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (100.8s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:21:03 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 1/2 (100.8s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:22:54 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 2/2 (212.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:22:54 [WARNING ] scanner  ↺  Clúster Marítimo de Canarias (CMC)             reintento 2/2 (212.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:22:54 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 2/2 (212.3s): LM Studio devolvió 400. Detalle: {"error":"Context size has been exceeded."}
+2026-05-05 12:24:41 [INFO    ] scanner  –  Cámara de Comercio Alemana AHK                 sin eventos  (318.9s)
+2026-05-05 12:27:04 [WARNING ] scanner  ✘  Cámara de Comercio Gran Canaria                error tras 462.2s: La respuesta no contiene un JSON array
+2026-05-05 12:27:11 [INFO    ] scanner  ✔  Clúster Marítimo de Canarias (CMC)             1 evento(s)  (469.0s)
+2026-05-05 12:29:28 [INFO    ] test_report  ============================================================
+2026-05-05 12:29:28 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 12:29:28 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 12:29:28 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 12:29:28 [INFO    ] test_report  ============================================================
+2026-05-05 12:29:28 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 12:29:28 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 12:29:28 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 12:29:28 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/
+2026-05-05 12:29:29 [INFO    ] llm.lmstudio  Pre-cargando 'qwen3.5-9b' en LM Studio (context_length=34096)...
+2026-05-05 12:29:36 [INFO    ] llm.lmstudio  Modelo 'qwen3.5-9b' cargado correctamente
+2026-05-05 12:33:52 [INFO    ] scanner  –  Cámara de Comercio Alemana AHK                 sin eventos  (263.5s)
+2026-05-05 12:34:09 [WARNING ] llm.lmstudio  Contexto saturado; truncados 3 tool results antiguos
+2026-05-05 12:34:09 [WARNING ] llm.lmstudio  Contexto saturado; truncados 7 tool results antiguos
+2026-05-05 12:34:09 [WARNING ] llm.lmstudio  Contexto saturado; truncados 4 tool results antiguos
+2026-05-05 12:34:55 [INFO    ] scanner  –  Clúster Marítimo de Canarias (CMC)             sin eventos  (326.9s)
+2026-05-05 12:36:06 [WARNING ] llm.lmstudio  LM Studio agotó 6 rondas de herramientas, forzando respuesta final...
+2026-05-05 12:36:37 [INFO    ] scanner  –  Cámara de Comercio Gran Canaria                sin eventos  (429.3s)
+2026-05-05 12:36:58 [INFO    ] scanner  ✔  CEOE Tenerife                                  3 evento(s)  (449.7s)
+2026-05-05 12:36:58 [INFO    ] reports  Informe guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.txt
+2026-05-05 12:36:58 [INFO    ] reports  Informe HTML guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.html
+2026-05-05 12:36:58 [INFO    ] test_report  ============================================================
+2026-05-05 12:36:58 [INFO    ] test_report    Test completado en 450s
+2026-05-05 12:36:58 [INFO    ] test_report    Eventos encontrados : 3
+2026-05-05 12:36:58 [INFO    ] test_report    Informe TXT  : reports\test_new_events.txt
+2026-05-05 12:36:58 [INFO    ] test_report    Informe HTML : reports\test_new_events.html
+2026-05-05 12:36:58 [INFO    ] test_report  ============================================================
+2026-05-05 13:02:39 [INFO    ] test_report  ============================================================
+2026-05-05 13:02:39 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 13:02:39 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 13:02:39 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 13:02:39 [INFO    ] test_report  ============================================================
+2026-05-05 13:02:39 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 13:02:39 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 13:02:39 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 13:02:39 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/proximos-eventos
+2026-05-05 13:02:40 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 13:02:40 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 13:02:40 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 13:02:40 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 13:02:40 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/por-que-algunos-vendedores-venden-mas/> (referer: https://www.google.com/)
+2026-05-05 13:02:41 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 13:02:41 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 13:02:41 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/circulo-de-transformacion-digital-panorama-actual-europeo-de-la-legislacion-condiciones-de-mercado-y-soluciones-de-ciberseguridad> (referer: https://www.google.com/)
+2026-05-05 13:02:41 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 13:02:41 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 13:02:42 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/lista/> (referer: https://www.google.com/)
+2026-05-05 13:02:42 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/mes/> (referer: https://www.google.com/)
+2026-05-05 13:02:42 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/hoy/> (referer: https://www.google.com/)
+2026-05-05 13:02:46 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 13:02:46 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 13:02:46 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 13:02:57 [INFO    ] scanner  –  Clúster Marítimo de Canarias (CMC)             sin eventos  (18.5s)
+2026-05-05 13:03:25 [INFO    ] scanner  –  CEOE Tenerife                                  sin eventos  (45.9s)
+2026-05-05 13:04:05 [INFO    ] scanner  –  Cámara de Comercio Gran Canaria                sin eventos  (86.4s)
+2026-05-05 13:04:31 [INFO    ] scanner  –  Cámara de Comercio Alemana AHK                 sin eventos  (112.6s)
+2026-05-05 13:04:31 [INFO    ] reports  Informe guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.txt
+2026-05-05 13:04:32 [INFO    ] reports  Informe HTML guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.html
+2026-05-05 13:04:32 [INFO    ] test_report  ============================================================
+2026-05-05 13:04:32 [INFO    ] test_report    Test completado en 113s
+2026-05-05 13:04:32 [INFO    ] test_report    Eventos encontrados : 0
+2026-05-05 13:04:32 [INFO    ] test_report    Informe TXT  : reports\test_new_events.txt
+2026-05-05 13:04:32 [INFO    ] test_report    Informe HTML : reports\test_new_events.html
+2026-05-05 13:04:32 [INFO    ] test_report  ============================================================
+2026-05-05 13:51:43 [INFO    ] test_report  ============================================================
+2026-05-05 13:51:43 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 13:51:43 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 13:51:43 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 13:51:43 [INFO    ] test_report  ============================================================
+2026-05-05 13:51:43 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 13:51:43 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 13:51:43 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 13:51:43 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/proximos-eventos
+2026-05-05 13:51:44 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 13:51:44 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 13:51:44 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 13:51:44 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 13:51:45 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 13:51:45 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 13:51:45 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 13:51:48 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 13:51:49 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 13:51:50 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 13:51:50 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 13:51:50 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 13:51:50 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 13:51:50 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 13:51:50 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 13:54:07 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: respuesta LLM (1536 chars)
+2026-05-05 13:54:07 [WARNING ] extractor  [extractor] Cámara de Comercio Gran Canaria: JSON inválido. Raw: 
+
+{
+  "events": [
+    {
+      "association": "Cámara de Comercio Gran Canaria",
+      "category": "Cámara",
+      "date": "07/05/2026 - 18/06/2026",
+      "description": "Curso preparatorio inglés B1 + examen Oxford para alcanzar nivel más alto y desenvolverse en situaciones de conversación o viaje.
+2026-05-05 13:54:07 [INFO    ] scanner  –  Cámara de Comercio Gran Canaria                sin eventos  (144.4s)
+2026-05-05 13:54:07 [INFO    ] extractor  [extractor] CEOE Tenerife: respuesta LLM (2 chars)
+2026-05-05 13:54:07 [INFO    ] scanner  –  CEOE Tenerife                                  sin eventos  (144.5s)
+2026-05-05 13:54:17 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): respuesta LLM (2 chars)
+2026-05-05 13:54:17 [INFO    ] scanner  –  Clúster Marítimo de Canarias (CMC)             sin eventos  (154.0s)
+2026-05-05 13:54:17 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: respuesta LLM (2 chars)
+2026-05-05 13:54:17 [INFO    ] scanner  –  Cámara de Comercio Alemana AHK                 sin eventos  (154.4s)
+2026-05-05 13:54:17 [INFO    ] reports  Informe guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.txt
+2026-05-05 13:54:17 [INFO    ] reports  Informe HTML guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.html
+2026-05-05 13:54:17 [INFO    ] test_report  ============================================================
+2026-05-05 13:54:17 [INFO    ] test_report    Test completado en 154s
+2026-05-05 13:54:17 [INFO    ] test_report    Eventos encontrados : 0
+2026-05-05 13:54:17 [INFO    ] test_report    Informe TXT  : reports\test_new_events.txt
+2026-05-05 13:54:17 [INFO    ] test_report    Informe HTML : reports\test_new_events.html
+2026-05-05 13:54:17 [INFO    ] test_report  ============================================================
+2026-05-05 13:55:08 [INFO    ] test_report  ============================================================
+2026-05-05 13:55:08 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 13:55:08 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 13:55:08 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 13:55:08 [INFO    ] test_report  ============================================================
+2026-05-05 13:55:08 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 13:55:08 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 13:55:08 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 13:55:08 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/proximos-eventos
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 13:55:09 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 13:55:10 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 13:55:10 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 13:55:10 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 13:55:15 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 13:55:15 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 13:55:15 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 13:55:15 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 13:56:39 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: respuesta LLM (13761 chars)
+2026-05-05 13:56:39 [WARNING ] extractor  [extractor] Cámara de Comercio Alemana AHK: JSON inválido. Raw: The user wants me to extract events from the provided web content for the German Chamber of Commerce AHK (Cámara de Comercio Alemana AHK).
+I need to filter events based on a specific date range: 05/05/2026 to 04/06/2026.
+The output must be strictly JSON, no markdown, no reasoning text.
+
+Input Data A
+2026-05-05 13:56:39 [INFO    ] scanner  –  Cámara de Comercio Alemana AHK                 sin eventos  (91.2s)
+2026-05-05 13:58:05 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: respuesta LLM (14214 chars)
+2026-05-05 13:58:05 [WARNING ] extractor  [extractor] Cámara de Comercio Gran Canaria: JSON inválido. Raw: The user wants me to extract business events from the provided web content for the "Cámara de Comercio Gran Canaria" association within the date range 05/05/2026 to 04/06/2026.
+
+I need to parse the text, identify events that fall within this specific future date range (May 5th to June 4th, 2026), an
+2026-05-05 13:58:05 [INFO    ] scanner  –  Cámara de Comercio Gran Canaria                sin eventos  (176.7s)
+2026-05-05 13:59:53 [INFO    ] extractor  [extractor] CEOE Tenerife: respuesta LLM (14642 chars)
+2026-05-05 13:59:53 [WARNING ] extractor  [extractor] CEOE Tenerife: JSON inválido. Raw: Thinking Process:
+
+1.  **Analyze the Request:**
+    *   **Role:** Business Event Extractor.
+    *   **Input:** Content from a Canary Islands association website (CEOE Tenerife).
+    *   **Output Format:** JSON only, no markdown, no reasoning, no extra text.
+    *   **Strict Rules:**
+        *   Filt
+2026-05-05 13:59:53 [INFO    ] scanner  –  CEOE Tenerife                                  sin eventos  (284.9s)
+2026-05-05 14:01:12 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): respuesta LLM (13850 chars)
+2026-05-05 14:01:12 [INFO    ] scanner  –  Clúster Marítimo de Canarias (CMC)             sin eventos  (364.6s)
+2026-05-05 14:01:12 [INFO    ] reports  Informe guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.txt
+2026-05-05 14:01:13 [INFO    ] reports  Informe HTML guardado en: C:\Users\SaúlTrujilloRodrígue\Desktop\radar-eventos-main\radar-eventos\reports\test_new_events.html
+2026-05-05 14:01:13 [INFO    ] test_report  ============================================================
+2026-05-05 14:01:13 [INFO    ] test_report    Test completado en 365s
+2026-05-05 14:01:13 [INFO    ] test_report    Eventos encontrados : 0
+2026-05-05 14:01:13 [INFO    ] test_report    Informe TXT  : reports\test_new_events.txt
+2026-05-05 14:01:13 [INFO    ] test_report    Informe HTML : reports\test_new_events.html
+2026-05-05 14:01:13 [INFO    ] test_report  ============================================================
+2026-05-05 20:35:45 [INFO    ] test_report  ============================================================
+2026-05-05 20:35:45 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 20:35:45 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 20:35:45 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 20:35:45 [INFO    ] test_report  ============================================================
+2026-05-05 20:35:45 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 20:35:45 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 20:35:45 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 20:35:45 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/proximos-eventos
+2026-05-05 20:35:47 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 20:35:47 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 20:35:47 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 20:35:48 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 20:35:48 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 20:35:48 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:35:48 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 20:35:49 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 20:35:51 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 20:35:51 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 20:35:51 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:35:53 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 20:35:53 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 20:35:53 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 20:35:53 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 20:36:08 [WARNING ] scanner  ↺  CEOE Tenerife                                  reintento 1/2 (23.2s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:36:11 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 20:36:11 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 20:36:30 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (44.6s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:36:32 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 20:36:32 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 20:36:32 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 20:36:32 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:36:51 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 1/2 (66.0s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:36:53 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 20:36:53 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 20:36:53 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 20:36:53 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:37:13 [WARNING ] scanner  ↺  Clúster Marítimo de Canarias (CMC)             reintento 1/2 (87.4s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:37:17 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 20:37:21 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 20:37:21 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 20:37:21 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 20:37:21 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 20:37:34 [WARNING ] scanner  ↺  CEOE Tenerife                                  reintento 2/2 (108.9s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:37:38 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 20:37:38 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 20:37:44 [INFO    ] test_report  ============================================================
+2026-05-05 20:37:44 [INFO    ] test_report    TEST REPORT — pipeline real sobre 4 fuentes
+2026-05-05 20:37:44 [INFO    ] test_report    Proveedor LLM : lmstudio
+2026-05-05 20:37:44 [INFO    ] test_report    Horizonte     : 30 días
+2026-05-05 20:37:44 [INFO    ] test_report  ============================================================
+2026-05-05 20:37:44 [INFO    ] scanner  ⟳  Escaneando CEOE Tenerife                                  https://ceoe-tenerife.com/eventos/
+2026-05-05 20:37:44 [INFO    ] scanner  ⟳  Escaneando Clúster Marítimo de Canarias (CMC)             https://clustermc.es/eventos-futuros/
+2026-05-05 20:37:44 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Gran Canaria                https://www.camaragrancanaria.org/formacion/oferta-formativa/
+2026-05-05 20:37:44 [INFO    ] scanner  ⟳  Escaneando Cámara de Comercio Alemana AHK                 https://www.ahk.es/es/eventos/proximos-eventos
+2026-05-05 20:37:46 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 20:37:47 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:37:52 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 20:37:56 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 2/2 (130.5s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:37:57 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 20:37:57 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 20:37:57 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 20:37:57 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 20:37:59 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 20:38:00 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 20:38:00 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 20:38:00 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:38:08 [WARNING ] scanner  ↺  CEOE Tenerife                                  reintento 1/2 (24.0s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:38:11 [INFO    ] scrapling  Fetched (200) <GET https://ceoe-tenerife.com/eventos/> (referer: https://www.google.com/)
+2026-05-05 20:38:11 [INFO    ] extractor  [extractor] CEOE Tenerife: contexto 4373 chars (main=2819, subs=0, jsonld=3)
+2026-05-05 20:38:17 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 2/2 (151.8s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:38:20 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 20:38:22 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 20:38:24 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 20:38:24 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:38:29 [WARNING ] scanner  ↺  Cámara de Comercio Alemana AHK                 reintento 1/2 (45.4s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:38:31 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/eventos/proximos-eventos> (referer: https://www.google.com/)
+2026-05-05 20:38:32 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/feria-advanced-factories> (referer: https://www.google.com/)
+2026-05-05 20:38:33 [INFO    ] scrapling  Fetched (200) <GET https://www.ahk.es/es/events/2026/2026-05/agile-project-manager-ahk-curso-certificado-online-en-ingles> (referer: https://www.google.com/)
+2026-05-05 20:38:33 [INFO    ] extractor  [extractor] Cámara de Comercio Alemana AHK: contexto 12305 chars (main=6000, subs=2, jsonld=0)
+2026-05-05 20:38:39 [WARNING ] scanner  ↺  Clúster Marítimo de Canarias (CMC)             reintento 2/2 (173.9s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:38:43 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/eventos-futuros/> (referer: https://www.google.com/)
+2026-05-05 20:38:48 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/marine-renewables-canada-2026-conference-exhibition/> (referer: https://www.google.com/)
+2026-05-05 20:38:48 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/smm-hamburgo/> (referer: https://www.google.com/)
+2026-05-05 20:38:48 [INFO    ] scrapling  Fetched (200) <GET https://clustermc.es/evento/wind-energy-hamburg/> (referer: https://www.google.com/)
+2026-05-05 20:38:48 [INFO    ] extractor  [extractor] Clúster Marítimo de Canarias (CMC): contexto 2833 chars (main=1154, subs=3, jsonld=0)
+2026-05-05 20:38:51 [WARNING ] scanner  ↺  Cámara de Comercio Gran Canaria                reintento 1/2 (67.1s): [WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder
+2026-05-05 20:38:53 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/> (referer: https://www.google.com/)
+2026-05-05 20:38:53 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/liderazgo-y-pensamiento-critico-en-la-era-de-la-inteligencia-artificial-como-tomar-mejores-decisiones-y-liderar-equipos-en-un-entorno-tecnologico/> (referer: https://www.google.com/)
+2026-05-05 20:38:53 [INFO    ] scrapling  Fetched (200) <GET https://www.camaragrancanaria.org/formacion/oferta-formativa/preparacion-ingles-b1-examen-oxford/> (referer: https://www.google.com/)
+2026-05-05 20:38:53 [INFO    ] extractor  [extractor] Cámara de Comercio Gran Canaria: contexto 17837 chars (main=6000, subs=2, jsonld=0)

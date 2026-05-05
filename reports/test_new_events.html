@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Radar Eventos Canarias — 05/05/2026 13:55</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; color: #1a1a2e; min-height: 100vh; }
+
+  /* ── Header ── */
+  header { background: #0f172a; color: #fff; padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  header h1 { font-size: 20px; font-weight: 600; letter-spacing: -.3px; }
+  header .meta { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+  .stats { display: flex; gap: 24px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat .n { font-size: 28px; font-weight: 700; color: #fff; line-height: 1; }
+  .stat .l { font-size: 11px; color: #64748b; margin-top: 2px; text-transform: uppercase; letter-spacing: .05em; }
+
+  /* ── Toolbar ── */
+  .toolbar { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 14px 32px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; position: sticky; top: 0; z-index: 10; }
+  .toolbar input { flex: 1; min-width: 200px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 12px; font-size: 13px; outline: none; }
+  .toolbar input:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px #3b82f620; }
+  .toolbar select { border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 10px; font-size: 13px; outline: none; background: #fff; cursor: pointer; color: #374151; }
+  .toolbar select:focus { border-color: #3b82f6; }
+  .counter { font-size: 12px; color: #64748b; white-space: nowrap; margin-left: auto; }
+  .view-btn { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 7px 12px; cursor: pointer; font-size: 13px; color: #475569; transition: background .15s; }
+  .view-btn.active, .view-btn:hover { background: #0f172a; color: #fff; border-color: #0f172a; }
+
+  /* ── Main ── */
+  main { padding: 24px 32px; max-width: 1400px; margin: 0 auto; }
+
+  /* ── Cards ── */
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .card { background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 18px; display: flex; flex-direction: column; gap: 8px; transition: box-shadow .15s; }
+  .card:hover { box-shadow: 0 4px 20px #0002; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 14px; font-weight: 600; line-height: 1.4; color: #0f172a; }
+  .card-title a { color: inherit; text-decoration: none; }
+  .card-title a:hover { color: #3b82f6; }
+  .card-assoc { font-size: 11px; color: #64748b; font-weight: 500; }
+  .card-desc { font-size: 12px; color: #64748b; line-height: 1.5; }
+  .card-footer { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; align-items: center; }
+
+  /* ── Chips ── */
+  .chip { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 500; white-space: nowrap; }
+  .chip-date     { background: #eff6ff; color: #1d4ed8; }
+  .chip-loc      { background: #f0fdf4; color: #15803d; }
+  .chip-price    { background: #fefce8; color: #a16207; }
+  .chip-deadline { background: #fff7ed; color: #c2410c; }
+
+  /* ── Badges de tipo ── */
+  .badge { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; }
+  .b-evento     { background: #dbeafe; color: #1e40af; }
+  .b-formacion  { background: #d1fae5; color: #065f46; }
+  .b-networking { background: #ede9fe; color: #5b21b6; }
+  .b-jornada    { background: #fce7f3; color: #9d174d; }
+  .b-feria      { background: #ffedd5; color: #9a3412; }
+  .b-mision     { background: #e0f2fe; color: #0369a1; }
+  .b-otro       { background: #f3f4f6; color: #374151; }
+
+  /* ── Tabla ── */
+  #table-wrap { overflow-x: auto; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #f8fafc; padding: 10px 14px; text-align: left; font-weight: 600; color: #374151; border-bottom: 2px solid #e2e8f0; white-space: nowrap; cursor: pointer; user-select: none; }
+  thead th:hover { background: #f1f5f9; }
+  thead th .sort-icon { font-size: 10px; margin-left: 4px; opacity: .4; }
+  thead th.sorted .sort-icon { opacity: 1; }
+  tbody tr { border-bottom: 1px solid #f1f5f9; transition: background .1s; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #f8fafc; }
+  tbody td { padding: 10px 14px; vertical-align: middle; }
+  .td-title a { color: #0f172a; text-decoration: none; font-weight: 500; }
+  .td-title a:hover { color: #3b82f6; }
+  .td-assoc { color: #64748b; font-size: 12px; white-space: nowrap; }
+  .td-date  { white-space: nowrap; color: #1d4ed8; font-size: 12px; }
+  .td-loc   { color: #64748b; font-size: 12px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .td-price { color: #a16207; font-size: 12px; white-space: nowrap; }
+
+  .empty { text-align: center; padding: 60px 0; color: #94a3b8; font-size: 14px; grid-column: 1 / -1; }
+
+  @media (max-width: 600px) {
+    header { padding: 16px; }
+    .toolbar { padding: 12px 16px; }
+    main { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div style="font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">Radar · Desarrollo de Negocio Canarias</div>
+    <h1>Eventos Empresariales</h1>
+    <div class="meta">Escaneo: 05/05/2026 13:55 &nbsp;·&nbsp; Ventana: hasta 04/06/2026 (30 días)</div>
+  </div>
+  <div class="stats" id="hdr-stats"></div>
+</header>
+
+<div class="toolbar">
+  <input type="search" id="q" placeholder="Buscar por título, descripción, asociación…">
+  <select id="f-type">
+    <option value="">Todos los tipos</option>
+  </select>
+  <select id="f-cat">
+    <option value="">Todas las categorías</option>
+  </select>
+  <select id="f-assoc">
+    <option value="">Todas las asociaciones</option>
+  </select>
+  <select id="f-sort">
+    <option value="date">Ordenar: fecha</option>
+    <option value="assoc">Ordenar: asociación</option>
+    <option value="title">Ordenar: título</option>
+  </select>
+  <span class="counter" id="counter"></span>
+  <button class="view-btn active" id="btn-cards" onclick="setView('cards')">⊞ Tarjetas</button>
+  <button class="view-btn"        id="btn-table" onclick="setView('table')">☰ Tabla</button>
+</div>
+
+<main>
+  <div id="grid"></div>
+  <div id="table-wrap" style="display:none">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="setSortCol('date')">Fecha <span class="sort-icon">▲</span></th>
+          <th onclick="setSortCol('title')">Título <span class="sort-icon">▲</span></th>
+          <th onclick="setSortCol('type')">Tipo <span class="sort-icon">▲</span></th>
+          <th onclick="setSortCol('association')">Asociación <span class="sort-icon">▲</span></th>
+          <th onclick="setSortCol('location')">Lugar <span class="sort-icon">▲</span></th>
+          <th onclick="setSortCol('price')">Precio <span class="sort-icon">▲</span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+// ─── Datos inyectados por el scanner ─────────────────────────────────────────
+const EVENTS = [];
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TYPE_LABELS = {
+  evento: 'Evento', formacion: 'Formación', networking: 'Networking',
+  jornada: 'Jornada', feria: 'Feria', mision: 'Misión', otro: 'Otro'
+};
+
+let currentView = 'cards';
+let sortCol = 'date';
+let sortDir = 1;
+
+function parseDate(s) {
+  const p = (s || '').split('-')[0].trim();
+  const [d, m, y] = p.split('/');
+  if (!d || !m || !y) return new Date(2099, 11, 31);
+  return new Date(+y, +m - 1, +d);
+}
+
+function populateFilters() {
+  const types  = [...new Set(EVENTS.map(e => e.type))].sort();
+  const cats   = [...new Set(EVENTS.map(e => e.category))].sort();
+  const assocs = [...new Set(EVENTS.map(e => e.association))].sort();
+  const fill = (id, vals) => {
+    const sel = document.getElementById(id);
+    vals.forEach(v => {
+      const o = document.createElement('option');
+      o.value = v;
+      o.textContent = TYPE_LABELS[v] || v;
+      sel.appendChild(o);
+    });
+  };
+  fill('f-type', types);
+  fill('f-cat', cats);
+  fill('f-assoc', assocs);
+}
+
+function getFiltered() {
+  const q      = document.getElementById('q').value.toLowerCase();
+  const ftype  = document.getElementById('f-type').value;
+  const fcat   = document.getElementById('f-cat').value;
+  const fassoc = document.getElementById('f-assoc').value;
+  const fsort  = document.getElementById('f-sort').value || sortCol;
+
+  let evs = EVENTS.filter(e => {
+    if (ftype  && e.type        !== ftype)  return false;
+    if (fcat   && e.category    !== fcat)   return false;
+    if (fassoc && e.association !== fassoc) return false;
+    if (q && !`${e.title} ${e.description} ${e.association}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
+
+  evs.sort((a, b) => {
+    let va = a[fsort] || '', vb = b[fsort] || '';
+    if (fsort === 'date') {
+      va = parseDate(va); vb = parseDate(vb);
+      return sortDir * (va - vb);
+    }
+    return sortDir * va.localeCompare(vb, 'es');
+  });
+  return evs;
+}
+
+function badgeClass(type) { return 'badge b-' + (type || 'otro'); }
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function renderCards(evs) {
+  const g = document.getElementById('grid');
+  if (!evs.length) {
+    g.innerHTML = '<div class="empty">Sin eventos para los filtros seleccionados.</div>';
+    return;
+  }
+  g.innerHTML = evs.map(e => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${esc(e.title)}</a>` : esc(e.title)}
+        </div>
+        <span class="${badgeClass(e.type)}">${TYPE_LABELS[e.type] || e.type}</span>
+      </div>
+      <div class="card-assoc">${esc(e.association)} &middot; ${esc(e.category)}</div>
+      ${e.description ? `<div class="card-desc">${esc(e.description)}</div>` : ''}
+      <div class="card-footer">
+        <span class="chip chip-date">📅 ${e.date}</span>
+        ${e.time ? `<span class="chip chip-date">🕐 ${e.time}</span>` : ''}
+        ${e.location !== '—' ? `<span class="chip chip-loc">📍 ${esc(e.location)}</span>` : ''}
+        ${e.price    !== '—' ? `<span class="chip chip-price">💶 ${esc(e.price)}</span>` : ''}
+        ${e.deadline          ? `<span class="chip chip-deadline">⏰ Inscr. ${esc(e.deadline)}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderTable(evs) {
+  const tb = document.getElementById('tbody');
+  if (!evs.length) {
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#94a3b8">Sin resultados</td></tr>';
+    return;
+  }
+  tb.innerHTML = evs.map(e => `
+    <tr>
+      <td class="td-date">${e.date}${e.time ? ' · ' + e.time : ''}</td>
+      <td class="td-title">
+        ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${esc(e.title)}</a>` : esc(e.title)}
+        ${e.description
+          ? `<div style="font-size:11px;color:#94a3b8;margin-top:2px">${esc(e.description.substring(0, 100))}${e.description.length > 100 ? '…' : ''}</div>`
+          : ''}
+      </td>
+      <td><span class="${badgeClass(e.type)}">${TYPE_LABELS[e.type] || e.type}</span></td>
+      <td class="td-assoc">${esc(e.association)}</td>
+      <td class="td-loc" title="${esc(e.location)}">${esc(e.location)}</td>
+      <td class="td-price">${e.price !== '—' ? esc(e.price) : '<span style="color:#cbd5e1">—</span>'}</td>
+    </tr>
+  `).join('');
+}
+
+function render() {
+  const evs = getFiltered();
+  document.getElementById('counter').textContent = `${evs.length} evento${evs.length !== 1 ? 's' : ''}`;
+  if (currentView === 'cards') renderCards(evs); else renderTable(evs);
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('grid').style.display       = v === 'cards' ? '' : 'none';
+  document.getElementById('table-wrap').style.display = v === 'table' ? '' : 'none';
+  document.getElementById('btn-cards').classList.toggle('active', v === 'cards');
+  document.getElementById('btn-table').classList.toggle('active', v === 'table');
+  render();
+}
+
+function setSortCol(col) {
+  if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+  document.getElementById('f-sort').value = col;
+  render();
+}
+
+function renderStats() {
+  const types  = {};
+  EVENTS.forEach(e => { types[e.type] = (types[e.type] || 0) + 1; });
+  const assocs = new Set(EVENTS.map(e => e.association)).size;
+  document.getElementById('hdr-stats').innerHTML = `
+    <div class="stat"><div class="n">${EVENTS.length}</div><div class="l">Eventos</div></div>
+    <div class="stat"><div class="n">${assocs}</div><div class="l">Fuentes</div></div>
+    ${Object.entries(types).sort((a, b) => b[1] - a[1]).slice(0, 2).map(([t, n]) => `
+    <div class="stat"><div class="n">${n}</div><div class="l">${TYPE_LABELS[t] || t}</div></div>`).join('')}
+  `;
+}
+
+['q', 'f-type', 'f-cat', 'f-assoc', 'f-sort'].forEach(id =>
+  document.getElementById(id).addEventListener('input', render)
+);
+
+populateFilters();
+renderStats();
+render();
+</script>
+</body>
+</html>

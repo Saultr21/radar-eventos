@@ -27,18 +27,18 @@ enviar notificación a Teams o email.
 
 - Python 3.11+
 - [LM Studio](https://lmstudio.ai) corriendo en local con el modelo `qwen/qwen3.5-9b` cargado
-- Dependencias Python: `pip install -r requirements.txt`
+- Dependencias Python: `uv sync`
 
 ---
 
 ## Ejecución
 
 ```bash
-# Activar entorno virtual (Windows)
-.venv\Scripts\activate
+# Crear entorno e instalar dependencias (primera vez)
+uv sync
 
 # Ejecutar el scan completo
-python src/scanner.py
+uv run src/scanner.py
 ```
 
 El scan con 54 fuentes tarda entre 30 y 90 minutos dependiendo de la velocidad del modelo.
@@ -215,15 +215,4 @@ Parque Empresarial El Goro (AEGORO) · AMIXTA Arinaga
 
 ### Otros (3)
 EFCA (Empresa Familiar) · AEDAL · AENAGA
-
-
----
-
-## Cómo funciona
-
-1. Cada lunes a las 08:00 (hora Madrid), GitHub Actions lanza el script automáticamente.
-2. El script llama a la API de Claude con búsqueda web real para cada una de las ~25 fuentes.
-3. Compara los eventos encontrados con una caché de eventos ya notificados.
-4. Si hay eventos nuevos, envía una notificación a Teams por webhook con fecha, lugar, precio y link.
-5. Actualiza la caché para no repetir notificaciones la semana siguiente.
 

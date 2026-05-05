@@ -1,0 +1,15 @@
+[project]
+name = "radar-eventos"
+version = "0.1.0"
+description = "Monitorización automática de eventos empresariales de Canarias"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "httpx>=0.27.0",
+    "mcp[cli]>=1.2.0",
+    "python-dotenv>=1.0.1",
+    "scrapling[fetchers]>=0.4.0",
+]
+
+[tool.uv]
+package = false
