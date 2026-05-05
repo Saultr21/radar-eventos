@@ -1,40 +1,29 @@
 {
-  // ── Proveedor LLM ─────────────────────────────────────────────────────────
-  "llm_provider": "lmstudio",        // lmstudio | anthropic | openrouter
-  "model": "qwen3.5-9b",        // nombre del modelo tal como aparece en LM Studio
-
   // ── LM Studio ─────────────────────────────────────────────────────────────
-  "lmstudio_base_url": "http://192.168.1.166:1234/v1",  // URL de la API de LM Studio
-  "lmstudio_api_mode": "project-mcp",               // project-mcp (recomendado) | native-mcp
+  "model": "qwen3.5-9b",              // nombre del modelo tal como aparece en LM Studio
+  "lmstudio_base_url": "http://localhost:1234/v1",
   "lmstudio_context_window": 34096,  // ventana de contexto del modelo en tokens
-  "lmstudio_model_ttl": 7200,        // segundos que LM Studio mantiene el modelo cargado (JIT TTL)
-  "lmstudio_web_mcp_port": 8765,     // puerto del servidor MCP local que arranca el scanner
+  "lmstudio_model_ttl": 7200,        // segundos que LM Studio mantiene el modelo cargado
+  "lmstudio_web_mcp_port": 8765,     // puerto del servidor MCP (project-mcp)
   "lmstudio_fetch_chars": 12000,     // máximo de caracteres por descarga de página web
-  "lmstudio_tool_result_chars": 6000,// máximo de chars que se devuelven al modelo por tool call
-  "lmstudio_tool_rounds": 6,         // máximo de rondas de tool calls antes de forzar respuesta final
-  "extractor_mode": "structured",    // structured (recomendado) | tool-loop (legacy)
-  "extractor_max_subpages": 3,       // páginas adicionales a descargar por fuente en modo structured
+  "lmstudio_tool_result_chars": 6000,// máximo de chars devueltos al modelo por tool call
+  "lmstudio_tool_rounds": 6,         // máximo de rondas de tool calls
+  "lmstudio_parallel_calls": 1,      // llamadas LLM concurrentes
+  "extractor_max_subpages": 3,       // páginas adicionales a descargar por fuente
   "extractor_per_page_chars": 6000,  // máximo de chars por página en el contexto del LLM
 
   // ── Escaneo ───────────────────────────────────────────────────────────────
   "days_ahead": 30,                  // ventana de búsqueda: eventos hasta N días desde hoy
-  "max_workers": 4,                  // fuentes procesadas en paralelo (subir con precaución)
+  "max_workers": 8,                  // fuentes procesadas en paralelo
   "retry_attempts": 3,               // reintentos por fuente si falla la llamada al LLM
   "retry_backoff": 2,                // multiplicador de espera entre reintentos (1s, 2s, 4s…)
-  "cache_retention_days": 90,        // días que se conservan eventos en caché antes de purgarlos
 
   // ── Notificaciones ────────────────────────────────────────────────────────
-  "notification_channel": "none",    // teams | email | none (desactiva envío)
-  "max_tokens": 4000,                // máximo de tokens en la respuesta del modelo
+  "notification_channel": "none",    // teams | email | none
 
-  // ── Rutas de archivos (relativas a la raíz del proyecto) ──────────────────
-  "known_events_file": "data/known_events.json",
-  "prompt_file": "config/prompts/prompt.txt",
-  "lmstudio_prompt_file": "config/prompts/prompt_lmstudio.txt",
+  // ── Rutas ─────────────────────────────────────────────────────────────────
   "sources_file": "config/sources.json",
   "report_html_file": "config/templates/report_html.html",
-
-  // Plantillas de notificación
   "email_subject_file": "config/templates/email_subject.txt",
   "email_html_file": "config/templates/email_html.html",
   "email_plain_file": "config/templates/email_plain.txt",

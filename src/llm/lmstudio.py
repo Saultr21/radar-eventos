@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import re
+import shutil
 import socket
 import subprocess
 import sys
@@ -51,6 +52,10 @@ _MCP_LOCK = threading.Lock()
 
 _MODEL_LOADED = False
 _MODEL_LOAD_LOCK = threading.Lock()
+# Contexto realmente cargado en LM Studio (si difiere del configurado).
+# Se rellena en ensure_model_loaded() y lo usa el extractor para truncar
+# input antes de mandar peticiones que sabemos que van a desbordar.
+LMSTUDIO_LOADED_CONTEXT: int = 0
 
 # ── Definición de herramientas para el modo legacy-tools ─────────────────────
 
@@ -231,10 +236,99 @@ def _lmstudio_root() -> str:
     return LMSTUDIO_BASE_URL.rstrip("/").removesuffix("/v1")
 
 
+def _get_loaded_context(base: str, headers: dict) -> tuple[int, int]:
+    """Devuelve (loaded_ctx, max_ctx) de la instancia cuyo identifier es
+    exactamente MODEL_NAME (el que va a usar la API OpenAI-compat).
+    Si no existe match exacto, busca uno parcial. (0, 0) si no hay."""
+    try:
+        resp = httpx.get(f"{base}/api/v0/models", headers=headers, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json().get("data", [])
+            for m in data:
+                if m.get("id") == MODEL_NAME and m.get("state") == "loaded":
+                    return (
+                        int(m.get("loaded_context_length") or 0),
+                        int(m.get("max_context_length") or 0),
+                    )
+            for m in data:
+                if MODEL_NAME in m.get("id", "") and m.get("state") == "loaded":
+                    return (
+                        int(m.get("loaded_context_length") or 0),
+                        int(m.get("max_context_length") or 0),
+                    )
+    except Exception as exc:
+        log.debug("No se pudo consultar /api/v0/models: %s", exc)
+    return 0, 0
+
+
+def _lms_reload_with_context(target_ctx: int, base: str, headers: dict) -> bool:
+    """Recarga el modelo vía `lms` CLI con el context_length deseado.
+    Descarga PRIMERO todas las instancias del modelo (LM Studio puede tener
+    cargadas variantes con el mismo nombre y distinto context_length, p.ej.
+    'qwen3.5-9b' y 'qwen/qwen3.5-9b'). Luego carga una sola con el ctx OK.
+    Returns True si se ejecutó con éxito."""
+    lms_bin = shutil.which("lms") or shutil.which("lms.exe")
+    if not lms_bin:
+        log.warning("CLI 'lms' no encontrado en PATH — no se puede ajustar contexto automáticamente")
+        return False
+
+    # Descubre todos los identifiers cargados que casen con MODEL_NAME y los
+    # descarga uno por uno (lms unload solo descarga uno a la vez).
+    loaded_ids: list[str] = []
+    try:
+        resp = httpx.get(f"{base}/api/v0/models", headers=headers, timeout=10)
+        if resp.status_code == 200:
+            for m in resp.json().get("data", []):
+                mid = m.get("id", "")
+                if MODEL_NAME in mid and m.get("state") == "loaded":
+                    loaded_ids.append(mid)
+    except Exception as exc:
+        log.debug("No se pudo listar modelos cargados: %s", exc)
+
+    log.info(
+        "Recargando '%s' vía lms (descargando %d instancia(s) previas: %s)…",
+        MODEL_NAME, len(loaded_ids), loaded_ids,
+    )
+    for mid in loaded_ids:
+        try:
+            subprocess.run(
+                [lms_bin, "unload", mid],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=60,
+            )
+        except Exception as exc:
+            log.debug("unload %s falló: %s", mid, exc)
+
+    try:
+        # --parallel=1: un solo slot de inferencia. LM Studio divide el ctx
+        # entre slots, así que parallel=4 con ctx=34096 deja ~8500 por slot.
+        # --identifier MODEL_NAME: garantiza que la API OpenAI-compat encuentre
+        # esta instancia con el nombre exacto que pedimos.
+        result = subprocess.run(
+            [lms_bin, "load", MODEL_NAME,
+             "--context-length", str(target_ctx),
+             "--parallel", "1",
+             "--identifier", MODEL_NAME,
+             "--yes"],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=300,
+        )
+        if result.returncode == 0:
+            log.info("Modelo '%s' cargado con ctx=%d", MODEL_NAME, target_ctx)
+            return True
+        log.warning(
+            "lms load falló (rc=%d): %s",
+            result.returncode, (result.stderr or b"").decode("utf-8", "replace")[:300],
+        )
+    except Exception as exc:
+        log.warning("Error invocando lms load: %s", exc)
+    return False
+
+
 def ensure_model_loaded() -> None:
-    """Pre-carga el modelo con context_length configurado si no está en memoria.
-    Thread-safe: solo el primer worker ejecuta la carga; el resto esperan."""
-    global _MODEL_LOADED
+    """Asegura que el modelo está en LM Studio con el context_length deseado.
+    Si ya está cargado con contexto suficiente, no toca nada.
+    Si no, intenta recargar vía `lms` CLI (la API REST OpenAI-compat no
+    permite cambiar el contexto en caliente)."""
+    global _MODEL_LOADED, LMSTUDIO_LOADED_CONTEXT
     if _MODEL_LOADED:
         return
 
@@ -247,39 +341,38 @@ def ensure_model_loaded() -> None:
         if LMSTUDIO_API_TOKEN:
             headers["Authorization"] = f"Bearer {LMSTUDIO_API_TOKEN}"
 
-        # Comprobar si el modelo ya está en memoria
-        try:
-            resp = httpx.get(f"{base}/api/v1/models", headers=headers, timeout=10)
-            if resp.status_code == 200:
-                ids = [m.get("id", "") for m in resp.json().get("data", [])]
-                if any(MODEL_NAME in mid for mid in ids):
-                    log.info("Modelo '%s' ya cargado en LM Studio", MODEL_NAME)
-                    _MODEL_LOADED = True
-                    return
-        except Exception as exc:
-            log.debug("No se pudo consultar modelos cargados: %s", exc)
+        loaded_ctx, max_ctx = _get_loaded_context(base, headers)
+        LMSTUDIO_LOADED_CONTEXT = loaded_ctx
 
-        # Cargar con el context_length configurado
-        log.info(
-            "Pre-cargando '%s' en LM Studio (context_length=%d)...",
-            MODEL_NAME, LMSTUDIO_CONTEXT_WINDOW,
-        )
-        try:
-            resp = httpx.post(
-                f"{base}/api/v1/models/load",
-                headers=headers,
-                json={"model": MODEL_NAME, "context_length": LMSTUDIO_CONTEXT_WINDOW},
-                timeout=300,
+        if loaded_ctx >= LMSTUDIO_CONTEXT_WINDOW:
+            log.info(
+                "Modelo '%s' cargado en LM Studio (ctx=%d, max=%d)",
+                MODEL_NAME, loaded_ctx, max_ctx,
             )
-            if resp.status_code == 200:
-                log.info("Modelo '%s' cargado correctamente", MODEL_NAME)
+            _MODEL_LOADED = True
+            return
+
+        log.info(
+            "Modelo '%s' tiene ctx=%d (< %d requerido). Recargando…",
+            MODEL_NAME, loaded_ctx, LMSTUDIO_CONTEXT_WINDOW,
+        )
+        if _lms_reload_with_context(LMSTUDIO_CONTEXT_WINDOW, base, headers):
+            new_ctx, _ = _get_loaded_context(base, headers)
+            LMSTUDIO_LOADED_CONTEXT = new_ctx
+            if new_ctx >= LMSTUDIO_CONTEXT_WINDOW:
+                log.info("Modelo recargado: ctx=%d", new_ctx)
             else:
                 log.warning(
-                    "LM Studio devolvió %d al cargar el modelo: %s",
-                    resp.status_code, resp.text[:200],
+                    "Tras recargar, ctx=%d sigue < %d. El extractor truncará el input.",
+                    new_ctx, LMSTUDIO_CONTEXT_WINDOW,
                 )
-        except Exception as exc:
-            log.warning("Error al pre-cargar el modelo: %s", exc)
+        else:
+            log.warning(
+                "No se pudo recargar el modelo. El extractor truncará el input para "
+                "encajar en ctx=%d. Carga manualmente con "
+                "`lms load %s --context-length=%d` para usar la ventana completa.",
+                loaded_ctx, MODEL_NAME, LMSTUDIO_CONTEXT_WINDOW,
+            )
 
         _MODEL_LOADED = True
 
@@ -303,6 +396,64 @@ def _strip_thinking(text: str) -> str:
     """Elimina bloques <think>...</think> que Qwen genera en modo razonamiento.
     Evita que se acumulen en el historial y saturen el contexto."""
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+
+
+_HERMES_TOOL_CALL_RE = re.compile(r"<tool_call>\s*(\{.*?\})\s*</tool_call>", re.DOTALL)
+# Tolerante a truncaciones: el modelo puede no cerrar </function> o </tool_call>
+_HERMES_FUNC_RE = re.compile(
+    r"<tool_call>\s*<function=([\w_]+)>(.*?)(?:</function>|</tool_call>|\Z)",
+    re.DOTALL,
+)
+# El valor del parámetro puede no cerrarse — capturar hasta </parameter>, otro
+# <parameter=, </function>, </tool_call> o final del string.
+_HERMES_PARAM_RE = re.compile(
+    r"<parameter=([\w_]+)>\s*(.*?)\s*(?:</parameter>|(?=<parameter=)|</function>|</tool_call>|\Z)",
+    re.DOTALL,
+)
+
+
+def _parse_hermes_tool_calls(content: str) -> list[dict]:
+    """Algunos Qwen3 emiten tool_calls como texto Hermes en lugar de la
+    estructura OpenAI. Soporta dos variantes:
+      - JSON dentro de <tool_call>{"name": ..., "arguments": {...}}</tool_call>
+      - <tool_call><function=NAME><parameter=k>v</parameter>...</function></tool_call>
+    Devuelve una lista vacía si no encuentra ninguno parseable."""
+    calls: list[dict] = []
+
+    for idx, match in enumerate(_HERMES_TOOL_CALL_RE.finditer(content)):
+        try:
+            obj = json.loads(match.group(1))
+            name = obj.get("name") or obj.get("function") or ""
+            args = obj.get("arguments") or obj.get("parameters") or {}
+            if isinstance(args, str):
+                try:
+                    args = json.loads(args)
+                except Exception:
+                    args = {"raw": args}
+            if name:
+                calls.append({
+                    "id": f"hermes_{idx}",
+                    "type": "function",
+                    "function": {"name": name, "arguments": json.dumps(args, ensure_ascii=False)},
+                })
+        except Exception:
+            continue
+
+    if calls:
+        return calls
+
+    for idx, match in enumerate(_HERMES_FUNC_RE.finditer(content)):
+        name = match.group(1)
+        body = match.group(2)
+        params = {k: v.strip() for k, v in _HERMES_PARAM_RE.findall(body)}
+        if name:
+            calls.append({
+                "id": f"hermes_fn_{idx}",
+                "type": "function",
+                "function": {"name": name, "arguments": json.dumps(params, ensure_ascii=False)},
+            })
+
+    return calls
 
 
 def run_lmstudio_prompt_legacy(prompt: str) -> str:
@@ -360,9 +511,17 @@ def run_lmstudio_prompt_legacy(prompt: str) -> str:
         body = response.json()
         message = body["choices"][0]["message"]
         tool_calls = message.get("tool_calls") or []
+        raw_content = message.get("content") or ""
+
+        if not tool_calls and "<tool_call>" in raw_content:
+            tool_calls = _parse_hermes_tool_calls(raw_content)
+            log.info(
+                "Hermes tool_call detectado en content (%d chars) → parseados %d calls",
+                len(raw_content), len(tool_calls),
+            )
 
         if not tool_calls:
-            content = message.get("content") or ""
+            content = raw_content
             if content:
                 return content
             # Qwen en modo razonamiento: añadir follow-up para forzar output

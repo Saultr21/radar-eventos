@@ -1,22 +1,13 @@
 """
 events.py
-Procesamiento de eventos: hashing, parseo de respuestas LLM, gestión de caché.
+Procesamiento de eventos: parseo de respuestas LLM y utilidades de filtrado.
 """
-import hashlib
 import json
 import logging
 import re
 from datetime import datetime, timedelta
 
-from config import KNOWN_EVENTS_FILE, CACHE_RETENTION_DAYS
-
 log = logging.getLogger(__name__)
-
-
-def event_id(event: dict) -> str:
-    """Genera un ID único por evento basado en título + fecha + fuente."""
-    raw = f"{event.get('title', '')}{event.get('date', '')}{event.get('association', '')}"
-    return hashlib.md5(raw.encode()).hexdigest()[:12]
 
 
 def event_start_date(event: dict) -> datetime | None:
@@ -95,56 +86,3 @@ def group_events_by_source(events: list[dict]) -> dict[str, list[dict]]:
     return grouped
 
 
-def load_known_events(today: datetime) -> dict[str, dict[str, str | None]]:
-    """Carga la caché de eventos conocidos manteniendo compatibilidad con formato legacy."""
-    if KNOWN_EVENTS_FILE.exists():
-        raw = json.loads(KNOWN_EVENTS_FILE.read_text())
-        if isinstance(raw, list):
-            first_seen = today.strftime("%Y-%m-%d")
-            return {eid: {"event_date": None, "first_seen": first_seen} for eid in raw}
-        if isinstance(raw, dict):
-            normalized: dict[str, dict[str, str | None]] = {}
-            for cached_id, metadata in raw.items():
-                if isinstance(metadata, dict):
-                    normalized[cached_id] = {
-                        "event_date": metadata.get("event_date"),
-                        "first_seen": metadata.get("first_seen"),
-                    }
-                else:
-                    normalized[cached_id] = {"event_date": None, "first_seen": None}
-            return normalized
-    return {}
-
-
-def save_known_events(known: dict[str, dict[str, str | None]]) -> None:
-    KNOWN_EVENTS_FILE.parent.mkdir(parents=True, exist_ok=True)
-    KNOWN_EVENTS_FILE.write_text(
-        json.dumps(dict(sorted(known.items())), ensure_ascii=False, indent=2)
-    )
-
-
-def prune_known_events(
-    known: dict[str, dict[str, str | None]],
-    today: datetime,
-) -> dict[str, dict[str, str | None]]:
-    """Elimina entradas antiguas para evitar que la caché crezca indefinidamente."""
-    cutoff = today - timedelta(days=CACHE_RETENTION_DAYS)
-    pruned: dict[str, dict[str, str | None]] = {}
-
-    for cached_id, metadata in known.items():
-        date_str = metadata.get("event_date") or metadata.get("first_seen")
-        if not date_str:
-            pruned[cached_id] = metadata
-            continue
-        try:
-            cached_date = datetime.strptime(date_str, "%Y-%m-%d")
-        except ValueError:
-            pruned[cached_id] = metadata
-            continue
-        if cached_date >= cutoff:
-            pruned[cached_id] = metadata
-
-    removed = len(known) - len(pruned)
-    if removed:
-        log.info(f"Caché depurada: {removed} evento(s) antiguos eliminados")
-    return pruned

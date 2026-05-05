@@ -46,26 +46,11 @@ def load_optional_text_file(path: Path, fallback: str) -> str:
 SETTINGS_FILE = resolve_path(os.environ.get("SETTINGS_FILE", "config/settings.json"))
 SETTINGS = load_json_file(SETTINGS_FILE)
 
-# ── Proveedor LLM ─────────────────────────────────────────────────────────────
-LLM_PROVIDER = os.environ.get("LLM_PROVIDER", SETTINGS.get("llm_provider", "anthropic")).lower()
-
-# ── Anthropic ─────────────────────────────────────────────────────────────────
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
-
-# ── OpenRouter ────────────────────────────────────────────────────────────────
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("API_KEY")
-OPENROUTER_BASE_URL = os.environ.get("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1/chat/completions")
-OPENROUTER_SITE_URL = os.environ.get("OPENROUTER_SITE_URL")
-OPENROUTER_SITE_NAME = os.environ.get("OPENROUTER_SITE_NAME", "canarias-eventos")
-
 # ── LM Studio ─────────────────────────────────────────────────────────────────
 LMSTUDIO_BASE_URL = os.environ.get(
     "LMSTUDIO_BASE_URL", SETTINGS.get("lmstudio_base_url", "http://localhost:1234/v1")
 )
 LMSTUDIO_API_TOKEN = os.environ.get("LMSTUDIO_API_TOKEN")
-LMSTUDIO_API_MODE = os.environ.get(
-    "LMSTUDIO_API_MODE", SETTINGS.get("lmstudio_api_mode", "project-mcp")
-).lower()
 LMSTUDIO_CONTEXT_WINDOW = int(
     os.environ.get("LMSTUDIO_CONTEXT_WINDOW", SETTINGS.get("lmstudio_context_window", 34096))
 )
@@ -84,10 +69,7 @@ LMSTUDIO_TOOL_ROUNDS = max(
     int(os.environ.get("LMSTUDIO_TOOL_ROUNDS", str(SETTINGS.get("lmstudio_tool_rounds", 6)))),
 )
 
-# ── Extractor (modo structured) ───────────────────────────────────────────────
-EXTRACTOR_MODE = os.environ.get(
-    "EXTRACTOR_MODE", SETTINGS.get("extractor_mode", "structured")
-).lower()
+# ── Extractor ────────────────────────────────────────────────────────────────
 EXTRACTOR_MAX_SUBPAGES = max(
     0,
     int(os.environ.get("EXTRACTOR_MAX_SUBPAGES", SETTINGS.get("extractor_max_subpages", 3))),
@@ -97,6 +79,13 @@ EXTRACTOR_PER_PAGE_CHARS = max(
     int(os.environ.get("EXTRACTOR_PER_PAGE_CHARS", SETTINGS.get("extractor_per_page_chars", 6000))),
 )
 LMSTUDIO_REQUEST_TIMEOUT = int(os.environ.get("LMSTUDIO_REQUEST_TIMEOUT", SETTINGS.get("lmstudio_request_timeout", 300)))
+# Peticiones concurrentes permitidas contra LM Studio. 0 = sin límite (lo limita
+# MAX_WORKERS). LM Studio moderno hace batching; serializar todo es lo que hacía
+# que el escaneo fuera lento.
+LMSTUDIO_PARALLEL_CALLS = max(
+    0,
+    int(os.environ.get("LMSTUDIO_PARALLEL_CALLS", SETTINGS.get("lmstudio_parallel_calls", 0))),
+)
 LMSTUDIO_FETCH_CHARS = max(
     1000, int(os.environ.get("LMSTUDIO_FETCH_CHARS", SETTINGS.get("lmstudio_fetch_chars", 4000)))
 )
@@ -123,29 +112,14 @@ DAYS_AHEAD = int(os.environ.get("DAYS_AHEAD", SETTINGS.get("days_ahead", 30)))
 MAX_WORKERS = max(1, int(os.environ.get("MAX_WORKERS", SETTINGS.get("max_workers", 6))))
 RETRY_ATTEMPTS = max(1, int(os.environ.get("RETRY_ATTEMPTS", SETTINGS.get("retry_attempts", 3))))
 RETRY_BACKOFF = max(1, int(os.environ.get("RETRY_BACKOFF", SETTINGS.get("retry_backoff", 2))))
-CACHE_RETENTION_DAYS = max(
-    DAYS_AHEAD,
-    int(os.environ.get("CACHE_RETENTION_DAYS", SETTINGS.get("cache_retention_days", 90))),
-)
-MODEL_NAME = os.environ.get("MODEL_NAME", SETTINGS.get("model", "claude-sonnet-4-20250514"))
-MAX_TOKENS = int(os.environ.get("MAX_TOKENS", SETTINGS.get("max_tokens", 1500)))
 NOTIFICATION_CHANNEL = os.environ.get(
     "NOTIFICATION_CHANNEL", SETTINGS.get("notification_channel", "teams")
 ).lower()
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
-KNOWN_EVENTS_FILE = resolve_path(SETTINGS.get("known_events_file", "data/known_events.json"))
 SOURCES = load_json_file(resolve_path(SETTINGS["sources_file"]))
 
 # ── Plantillas ────────────────────────────────────────────────────────────────
-_prompt_path = resolve_path(SETTINGS["prompt_file"])
-PROMPT_TEMPLATE = load_text_file(_prompt_path) if _prompt_path.exists() else ""
-_lmstudio_prompt_path = resolve_path(SETTINGS.get("lmstudio_prompt_file", SETTINGS["prompt_file"]))
-LMSTUDIO_PROMPT_TEMPLATE = load_optional_text_file(_lmstudio_prompt_path, PROMPT_TEMPLATE)
-if LLM_PROVIDER != "lmstudio" and not PROMPT_TEMPLATE:
-    raise FileNotFoundError(
-        f"prompt_file requerido para provider '{LLM_PROVIDER}': {_prompt_path}"
-    )
 EMAIL_SUBJECT_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_subject_file"]))
 EMAIL_HTML_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_html_file"]))
 EMAIL_PLAIN_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_plain_file"]))

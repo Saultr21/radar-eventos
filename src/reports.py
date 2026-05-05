@@ -23,6 +23,8 @@ def save_events_report(
     reports_dir = ROOT_DIR / "reports"
     reports_dir.mkdir(exist_ok=True)
     report_path = output_path or (reports_dir / "latest_new_events.txt")
+    ts = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    archive_txt = reports_dir / f"{ts}_events.txt"
 
     horizon_label = (datetime.now() + timedelta(days=days_ahead)).strftime("%d/%m/%Y")
     lines: list[str] = [
@@ -57,14 +59,15 @@ def save_events_report(
                     f"  Descripción:  {ev.get('description', '—')}",
                     f"  URL:          {ev.get('url', '—')}",
                     f"  Precio:       {ev.get('price', '—')}",
-                    f"  Inscripción:  {ev.get('deadline', '—')}",
                     f"  Asociación:   {ev.get('association', '—')}",
                     f"  Categoría:    {ev.get('category', '—')}",
                 ]
 
     lines += ["", "=" * 60]
-    report_path.write_text("\n".join(lines), encoding="utf-8")
-    log.info(f"Informe guardado en: {report_path}")
+    content = "\n".join(lines)
+    report_path.write_text(content, encoding="utf-8")
+    archive_txt.write_text(content, encoding="utf-8")
+    log.info(f"Informe guardado en: {report_path}  +  {archive_txt.name}")
 
 
 def save_events_html_report(
@@ -77,6 +80,8 @@ def save_events_html_report(
     reports_dir = ROOT_DIR / "reports"
     reports_dir.mkdir(exist_ok=True)
     report_path = output_path or (reports_dir / "latest_new_events.html")
+    ts = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    archive_html = reports_dir / f"{ts}_events.html"
 
     horizon_label = (datetime.now() + timedelta(days=days_ahead)).strftime("%d/%m/%Y")
     clean = [
@@ -89,7 +94,6 @@ def save_events_html_report(
             "description": ev.get("description") or "",
             "url":         ev.get("url") or "",
             "price":       ev.get("price") or "—",
-            "deadline":    ev.get("deadline") or "",
             "association": ev.get("association") or "Otros",
             "category":    ev.get("category") or "—",
         }
@@ -104,4 +108,5 @@ def save_events_html_report(
         .replace("__DAYS_AHEAD__",    str(days_ahead))
     )
     report_path.write_text(html, encoding="utf-8")
-    log.info(f"Informe HTML guardado en: {report_path}")
+    archive_html.write_text(html, encoding="utf-8")
+    log.info(f"Informe HTML guardado en: {report_path}  +  {archive_html.name}")
