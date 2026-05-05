@@ -24,6 +24,8 @@ import httpx
 from config import (
     EXTRACTOR_MAX_SUBPAGES,
     EXTRACTOR_PER_PAGE_CHARS,
+    EXTRACTOR_SYSTEM_PROMPT,
+    EXTRACTOR_USER_PROMPT,
     LMSTUDIO_API_TOKEN,
     LMSTUDIO_BASE_URL,
     LMSTUDIO_CONTEXT_WINDOW,
@@ -228,70 +230,17 @@ def _build_context(
 
 # ── Llamada al LLM con JSON schema ────────────────────────────────────────────
 
-_SYSTEM_PROMPT = """/nothink
-Eres un extractor de eventos empresariales. Recibes el contenido de una o varias páginas web de una asociación canaria y devuelves los eventos en JSON.
-
-Reglas estrictas:
-- Solo eventos cuya fecha sea HOY o posterior, dentro del rango indicado.
-- date: DD/MM/YYYY o rango DD/MM/YYYY-DD/MM/YYYY. CONVIERTE SIEMPRE al formato DD/MM/YYYY aunque aparezca como "15 mayo 2026", "Jun 1 - 5 junio 2026", "May 21-22 2026", "2026-05-15", etc. Meses: enero=01, febrero=02, marzo=03, abril=04, mayo=05, junio=06, julio=07, agosto=08, septiembre=09, octubre=10, noviembre=11, diciembre=12.
-- Si hay rango de fechas (ej. "Jun 1 - 5 junio 2026"), emite "01/06/2026-05/06/2026".
-- time: hora de INICIO del evento en formato HH:MM (24h). Fuentes de hora (por orden de prioridad): (1) campo "startTime: HH:MM" en la sección ### EVENTOS ESTRUCTURADOS del contexto — úsalo directamente; (2) expresiones en el texto como "a las 18:00 h", "at 3pm", "18:30 Uhr", "de 9:00 a 14:00". Si no hay hora de inicio, deja "". NUNCA captures timestamps de publicación, "Posted at", "Actualizado el" ni metadatos.
-- location: lugar físico o plataforma virtual donde se celebra el evento. Busca nombres de recintos, salas, ciudades, países, "Online", "Zoom", "Teams", "virtual" en cualquier idioma. Si no aparece, deja "".
-- price: precio si aparece. Si es 0, "free", "gratuito", "kostenlos", "gratuit", escribe "Gratuito". Deja "" si no aparece.
-- type ∈ {evento, formacion, networking, jornada, feria, mision, otro}.
-- description: máximo 150 caracteres, sin HTML. No repitas hora ni lugar si ya los pusiste en time/location.
-- association y category son fijos (te los doy abajo).
-- url: URL real que aparezca literalmente en el contenido. Si no hay, deja "".
-- No inventes datos. Si un campo no aparece en el contenido, déjalo vacío "".
-- Si no hay eventos en el rango, devuelve {"events": []}.
-- Devuelve SOLO el JSON, sin razonar, sin <think>, sin markdown.
-
-Ejemplos de extracción de time y location (varios idiomas):
-  ES: "6 de mayo, a las 18:00 horas, Teatro Príncipe Felipe, Tegueste"
-  → time: "18:00", location: "Teatro Príncipe Felipe, Tegueste"
-
-  ES: "el martes 19 de mayo a las 10:00h en el Palacio de Congresos de Madrid"
-  → time: "10:00", location: "Palacio de Congresos de Madrid"
-
-  ES: "Jornada presencial en Las Palmas de Gran Canaria, de 9:00 a 14:00"
-  → time: "09:00", location: "Las Palmas de Gran Canaria"
-
-  ES: "Webinar online. Inscríbete en..."
-  → time: "", location: "Online"
-
-  EN: "Tuesday, May 19 | 10:00 AM – 12:00 PM | Brussels, Belgium"
-  → time: "10:00", location: "Brussels, Belgium"
-
-  EN: "Join us online via Zoom at 3pm CET"
-  → time: "15:00", location: "Online"
-
-  EN: "from 9am to 5pm at the ICC Berlin"
-  → time: "09:00", location: "ICC Berlin"
-
-  DE: "Donnerstag, 14. Mai 2026, 18:30 Uhr, IHK Frankfurt"
-  → time: "18:30", location: "IHK Frankfurt"
-
-  DE: "Online-Veranstaltung ab 10:00 Uhr"
-  → time: "10:00", location: "Online"
-
-  JSON-LD estructurado: "startTime: 18:30 | location: Auditorio Tenerife, Santa Cruz"
-  → time: "18:30", location: "Auditorio Tenerife, Santa Cruz"
-
-  METADATA a ignorar: "Publicado el 14/05/2026 a las 09:57 por admin"
-  → time: "", location: ""
-"""
-
 
 def _user_prompt(source: dict, days_ahead: int, today: datetime, context: str) -> str:
     horizon = (today + timedelta(days=days_ahead)).strftime("%d/%m/%Y")
     today_str = today.strftime("%d/%m/%Y")
-    return (
-        f"Asociación: {source['name']}\n"
-        f"Categoría: {source['cat']}\n"
-        f"URL fuente: {source['url']}\n"
-        f"Rango de fechas: {today_str} a {horizon}\n\n"
-        f"--- CONTENIDO ---\n{context}\n--- FIN ---\n\n"
-        f"Devuelve SOLO el JSON con la lista de eventos en el rango."
+    return EXTRACTOR_USER_PROMPT.format(
+        association=source["name"],
+        category=source["cat"],
+        source_url=source["url"],
+        today_str=today_str,
+        horizon=horizon,
+        context=context,
     )
 
 
@@ -588,7 +537,7 @@ def extract_events_structured(source: dict, days_ahead: int) -> list[dict]:
 
     # 5. Llamada al LLM con schema enforcement
     messages = [
-        {"role": "system", "content": _SYSTEM_PROMPT},
+        {"role": "system", "content": EXTRACTOR_SYSTEM_PROMPT},
         {"role": "user", "content": _user_prompt(source, days_ahead, today, context)},
     ]
     raw = _call_lmstudio_structured(messages)

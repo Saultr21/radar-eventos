@@ -28,5 +28,9 @@
   "email_html_file": "config/templates/email_html.html",
   "email_plain_file": "config/templates/email_plain.txt",
   "teams_title_file": "config/templates/teams_title.txt",
-  "teams_body_file": "config/templates/teams_body.txt"
+  "teams_body_file": "config/templates/teams_body.txt",
+
+  // ── Prompts ───────────────────────────────────────────────────────────────
+  "extractor_system_prompt_file": "config/prompts/system_prompt.txt",
+  "extractor_user_prompt_file":   "config/prompts/user_prompt.txt"
 }

@@ -46,6 +46,10 @@ def load_optional_text_file(path: Path, fallback: str) -> str:
 SETTINGS_FILE = resolve_path(os.environ.get("SETTINGS_FILE", "config/settings.json"))
 SETTINGS = load_json_file(SETTINGS_FILE)
 
+# ── Modelo ────────────────────────────────────────────────────────────────────
+MODEL_NAME = os.environ.get("MODEL_NAME", SETTINGS.get("model", "qwen3.5-9b"))
+MAX_TOKENS = int(os.environ.get("MAX_TOKENS", SETTINGS.get("max_tokens", 8000)))
+
 # ── LM Studio ─────────────────────────────────────────────────────────────────
 LMSTUDIO_BASE_URL = os.environ.get(
     "LMSTUDIO_BASE_URL", SETTINGS.get("lmstudio_base_url", "http://localhost:1234/v1")
@@ -120,9 +124,11 @@ NOTIFICATION_CHANNEL = os.environ.get(
 SOURCES = load_json_file(resolve_path(SETTINGS["sources_file"]))
 
 # ── Plantillas ────────────────────────────────────────────────────────────────
-EMAIL_SUBJECT_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_subject_file"]))
-EMAIL_HTML_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_html_file"]))
-EMAIL_PLAIN_TEMPLATE = load_text_file(resolve_path(SETTINGS["email_plain_file"]))
-TEAMS_TITLE_TEMPLATE = load_text_file(resolve_path(SETTINGS["teams_title_file"]))
-TEAMS_BODY_TEMPLATE = load_text_file(resolve_path(SETTINGS["teams_body_file"]))
-REPORT_HTML_TEMPLATE = load_text_file(resolve_path(SETTINGS["report_html_file"]))
+EXTRACTOR_SYSTEM_PROMPT = load_text_file(resolve_path(SETTINGS["extractor_system_prompt_file"]))
+EXTRACTOR_USER_PROMPT   = load_text_file(resolve_path(SETTINGS["extractor_user_prompt_file"]))
+EMAIL_SUBJECT_TEMPLATE  = load_text_file(resolve_path(SETTINGS["email_subject_file"]))
+EMAIL_HTML_TEMPLATE     = load_text_file(resolve_path(SETTINGS["email_html_file"]))
+EMAIL_PLAIN_TEMPLATE    = load_text_file(resolve_path(SETTINGS["email_plain_file"]))
+TEAMS_TITLE_TEMPLATE    = load_text_file(resolve_path(SETTINGS["teams_title_file"]))
+TEAMS_BODY_TEMPLATE     = load_text_file(resolve_path(SETTINGS["teams_body_file"]))
+REPORT_HTML_TEMPLATE    = load_text_file(resolve_path(SETTINGS["report_html_file"]))
