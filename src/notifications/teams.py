@@ -1,6 +1,7 @@
 """
 notifications/teams.py
-Construcción y envío de notificaciones a Microsoft Teams via webhook.
+Construcción y envío de notificaciones a Microsoft Teams via Power Automate webhook.
+El flujo espera: {"adaptive_card": "<JSON string>", "attachments": [{}]}
 """
 import base64
 import json
@@ -124,6 +125,28 @@ def build_teams_card(
         days_ahead=DAYS_AHEAD,
         event_lines=build_teams_event_lines(new_events),
     ).strip()
+
+    adaptive_card = {
+        "type": "AdaptiveCard",
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "version": "1.2",
+        "body": [
+            {
+                "type": "TextBlock",
+                "text": title,
+                "weight": "Bolder",
+                "size": "Medium",
+                "color": "Accent",
+                "wrap": True,
+            },
+            {
+                "type": "TextBlock",
+                "text": body_text,
+                "wrap": True,
+            },
+        ],
+    }
+
     return {
         "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
         "type": "AdaptiveCard",

@@ -28,7 +28,15 @@
       "Bash(grep -c \"URL:          $\" reports/latest_new_events.txt)",
       "Bash(awk '/URL:/' reports/latest_new_events.txt)",
       "PowerShell(head -30)",
-      "PowerShell([System.IO.Directory]::GetFiles\\(\"E:\\\\Cognitia\\\\radar-eventos\\\\src\"\\))"
+      "PowerShell([System.IO.Directory]::GetFiles\\(\"E:\\\\Cognitia\\\\radar-eventos\\\\src\"\\))",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(powershell -command \"Get-Clipboard\")",
+      "Bash(python -c ' *)",
+      "Bash(python src/scanner.py)",
+      "Bash(git merge *)",
+      "Bash(git stash *)"
     ]
   }
 }

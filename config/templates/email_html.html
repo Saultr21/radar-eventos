@@ -7,26 +7,24 @@
     <div style="background:#0f172a;padding:28px 32px">
       <div style="font-size:11px;color:#94a3b8;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">Desarrollo de Negocio · Canarias</div>
       <div style="font-size:22px;font-weight:600;color:#fff">Radar de Eventos Empresariales</div>
-      <div style="font-size:13px;color:#94a3b8;margin-top:6px">Escaneo del {scan_date} · Proximos {days_ahead} dias</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:6px">Escaneo del {scan_date}</div>
     </div>
     <div style="display:flex;gap:0;border-bottom:1px solid #e5e5e5">
       <div style="flex:1;padding:20px 24px;border-right:1px solid #e5e5e5">
         <div style="font-size:28px;font-weight:600;color:#0f172a">{total_events}</div>
         <div style="font-size:12px;color:#666;margin-top:2px">nuevos eventos detectados</div>
       </div>
-      <div style="flex:1;padding:20px 24px;border-right:1px solid #e5e5e5">
+      <div style="flex:1;padding:20px 24px">
         <div style="font-size:28px;font-weight:600;color:#0f172a">{sources_count}</div>
         <div style="font-size:12px;color:#666;margin-top:2px">organizaciones activas</div>
       </div>
-      <div style="flex:1;padding:20px 24px">
-        <div style="font-size:28px;font-weight:600;color:#0f172a">{days_ahead}d</div>
-        <div style="font-size:12px;color:#666;margin-top:2px">ventana de busqueda</div>
-      </div>
     </div>
     <div style="padding:24px 32px">
-      <table style="width:100%;border-collapse:collapse">
-        {rows_html}
-      </table>
+      <p style="font-size:14px;color:#444;margin:0">
+        El informe completo con todos los eventos detectados está adjunto a este correo
+        en formato HTML. Ábrelo en cualquier navegador para ver el listado detallado
+        con filtros por categoría, fecha y organización.
+      </p>
     </div>
     <div style="background:#f7f7f5;padding:20px 32px;border-top:1px solid #e5e5e5">
       <p style="font-size:11px;color:#888;margin:0">

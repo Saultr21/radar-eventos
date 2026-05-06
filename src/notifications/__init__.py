@@ -2,6 +2,8 @@
 notifications/__init__.py
 Punto de entrada unificado para el envío de notificaciones.
 """
+from pathlib import Path
+
 from config import NOTIFICATION_CHANNEL
 
 
@@ -9,7 +11,7 @@ def send_notification(
     new_events: list[dict],
     scan_date: str,
     today,
-    report_html_path=None,
+    report_html_path: Path | None = None,
 ) -> None:
     """Envía la notificación al canal configurado (teams | email | none)."""
     if NOTIFICATION_CHANNEL == "none":
@@ -31,12 +33,10 @@ def send_notification(
             build_email_subject,
             send_email,
         )
-        from config import DAYS_AHEAD
-
         subject = build_email_subject(len(new_events), today)
-        html = build_email_html(new_events, scan_date, DAYS_AHEAD)
+        html = build_email_html(new_events, scan_date)
         plain = build_email_plain(new_events, scan_date)
-        send_email(subject, html, plain)
+        send_email(subject, html, plain, attachment_path=report_html_path)
         return
 
     raise ValueError(

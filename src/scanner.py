@@ -12,6 +12,7 @@ from config import (
     DAYS_AHEAD,
     LLM_PROVIDER,
     MAX_WORKERS,
+    MODEL_NAME,
     RETRY_ATTEMPTS,
     RETRY_BACKOFF,
     ROOT_DIR,
@@ -78,7 +79,7 @@ def scan_source(source: dict, days_ahead: int) -> list[dict]:
 def main() -> None:
     log.info("=" * 60)
     log.info("  RADAR EVENTOS — inicio de escaneo")
-    log.info("  Proveedor LLM : %s", LLM_PROVIDER)
+    log.info("  Proveedor LLM : %s", MODEL_NAME)
     log.info("  Fuentes       : %d", len(SOURCES))
     log.info("  Workers       : %d", MAX_WORKERS)
     log.info("  Horizonte     : %d días", DAYS_AHEAD)

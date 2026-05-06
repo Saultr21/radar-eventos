@@ -47,9 +47,9 @@ SETTINGS_FILE = resolve_path(os.environ.get("SETTINGS_FILE", "config/settings.js
 SETTINGS = load_json_file(SETTINGS_FILE)
 
 # ── Modelo ────────────────────────────────────────────────────────────────────
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", SETTINGS.get("llm_provider", "lmstudio"))
 MODEL_NAME = os.environ.get("MODEL_NAME", SETTINGS.get("model", "qwen3.5-9b"))
 MAX_TOKENS = int(os.environ.get("MAX_TOKENS", SETTINGS.get("max_tokens", 8000)))
-LLM_PROVIDER = os.environ.get("LLM_PROVIDER", SETTINGS.get("llm_provider", "lmstudio"))
 # ── LM Studio ─────────────────────────────────────────────────────────────────
 LMSTUDIO_BASE_URL = os.environ.get(
     "LMSTUDIO_BASE_URL", SETTINGS.get("lmstudio_base_url", "http://localhost:1234/v1")
@@ -104,13 +104,15 @@ LMSTUDIO_TOOL_RESULT_CHARS = max(
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 EMAIL_FROM = os.environ.get("EMAIL_FROM")
-EMAIL_PASSWORD = os.environ.get("EMAIL_PASSWORD")
-EMAIL_TO = os.environ.get("EMAIL_TO")
-SMTP_HOST = os.environ.get("SMTP_HOST", "smtp.gmail.com")
-SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
+EMAIL_TO   = os.environ.get("EMAIL_TO")
 
 # ── Teams ─────────────────────────────────────────────────────────────────────
 TEAMS_WEBHOOK_URL = os.environ.get("TEAMS_WEBHOOK_URL")
+
+# ── Azure / Graph API ─────────────────────────────────────────────────────────
+AZURE_TENANT_ID     = os.environ.get("AZURE_TENANT_ID")
+AZURE_CLIENT_ID     = os.environ.get("AZURE_CLIENT_ID")
+AZURE_CLIENT_SECRET = os.environ.get("AZURE_CLIENT_SECRET")
 
 # ── Escaneo ───────────────────────────────────────────────────────────────────
 DAYS_AHEAD = int(os.environ.get("DAYS_AHEAD", SETTINGS.get("days_ahead", 30)))
