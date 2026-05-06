@@ -13,7 +13,7 @@ def send_notification(
     today,
     report_html_path: Path | None = None,
 ) -> None:
-    """Envía la notificación al canal configurado (teams | email | none)."""
+    """Envía la notificación al canal configurado (email | none)."""
     if NOTIFICATION_CHANNEL == "none":
         import logging
         logging.getLogger(__name__).info(
@@ -21,25 +21,18 @@ def send_notification(
         )
         return
 
-    if NOTIFICATION_CHANNEL == "teams":
-        from notifications.teams import build_teams_payload, send_teams
-        send_teams(build_teams_payload(new_events, scan_date, report_html_path=report_html_path))
-        return
-
     if NOTIFICATION_CHANNEL == "email":
         from notifications.email import (
             build_email_html,
-            build_email_plain,
             build_email_subject,
             send_email,
         )
         subject = build_email_subject(len(new_events), today)
         html = build_email_html(new_events, scan_date)
-        plain = build_email_plain(new_events, scan_date)
-        send_email(subject, html, plain, attachment_path=report_html_path)
+        send_email(subject, html, attachment_path=report_html_path)
         return
 
     raise ValueError(
         f"Canal de notificación no soportado: '{NOTIFICATION_CHANNEL}'. "
-        "Valores válidos: teams | email"
+        "Valores válidos: email | none"
     )

@@ -4,8 +4,8 @@ Sistema de monitorización automática que escanea las webs de 48 asociaciones e
 de Canarias y extrae eventos en los próximos 30 días.
 
 Usa **LM Studio en local** con el modelo Qwen3.5-9B como motor de extracción estructurada.
-Al terminar genera un informe HTML interactivo y un informe TXT, y puede enviar notificación
-a Teams o email.
+Al terminar genera un informe HTML interactivo y un informe TXT, y puede enviar el informe
+por email con el HTML adjunto.
 
 ---
 
@@ -19,7 +19,7 @@ a Teams o email.
    cuando el modelo los deja vacíos.
 5. Se generan `reports/latest_new_events.html` y `reports/latest_new_events.txt`, más
    una copia con timestamp (`YYYY-MM-DD_HH-MM_events.*`) como archivo histórico.
-6. Si hay eventos, envía notificación al canal configurado (Teams o email).
+6. Si hay eventos y `NOTIFICATION_CHANNEL=email`, envía un correo con el HTML adjunto.
 
 ---
 
@@ -61,18 +61,69 @@ El scan con 48 fuentes tarda entre 4 y 6 minutos.
 | `extractor_per_page_chars` | Máximo de caracteres por página enviados al LLM |
 | `days_ahead` | Ventana de búsqueda en días (por defecto 30) |
 | `max_workers` | Fuentes procesadas en paralelo |
-| `notification_channel` | `teams`, `email` o `none` |
+| `notification_channel` | `email` o `none` |
 
 ### Variables de entorno
 
+Copia `.env.example` a `.env` y rellena los valores:
+
+```bash
+cp .env.example .env
+```
+
 | Variable | Descripción |
 |----------|-------------|
-| `NOTIFICATION_CHANNEL` | Sobrescribe `notification_channel` (`teams`, `email`, `none`) |
-| `TEAMS_WEBHOOK_URL` | URL del workflow/webhook de Teams o Power Automate |
-| `EMAIL_FROM` / `EMAIL_PASSWORD` / `EMAIL_TO` | Credenciales SMTP |
-| `SMTP_HOST` / `SMTP_PORT` | Servidor SMTP (por defecto Gmail, 587) |
+| `NOTIFICATION_CHANNEL` | `email` o `none` (sobrescribe el valor de `settings.json`) |
+| `EMAIL_FROM` | Buzón desde el que se envía (usuario de tu tenant M365) |
+| `EMAIL_TO` | Destinatarios separados por comas |
+| `AZURE_TENANT_ID` | ID del tenant de Azure AD |
+| `AZURE_CLIENT_ID` | ID de la app registrada en Azure AD |
+| `AZURE_CLIENT_SECRET` | Valor del secreto de la app (no el ID) |
 
-Para uso local, puedes definir estas variables en `.env` (ya ignorado por git).
+---
+
+## Configuración del envío de email (Microsoft Graph API)
+
+El correo se envía mediante la API de Microsoft Graph con OAuth2 `client_credentials`,
+sin contraseñas ni SMTP. El email incluye un resumen en el cuerpo y el informe completo
+(`latest_new_events.html`) adjunto.
+
+### 1. Registrar una app en Azure AD
+
+1. Ve a [portal.azure.com](https://portal.azure.com) → **Microsoft Entra ID** → **App registrations** → **New registration**.
+2. Dale un nombre (p. ej. `radar-eventos`) y haz clic en **Register**.
+3. Anota el **Application (client) ID** y el **Directory (tenant) ID** — los necesitarás en `.env`.
+
+### 2. Crear un secreto de cliente
+
+1. Dentro de la app → **Certificates & secrets** → **New client secret**.
+2. Elige una duración y haz clic en **Add**.
+3. Copia el **Value** del secreto (solo se muestra una vez). Es el `AZURE_CLIENT_SECRET`.
+
+### 3. Conceder el permiso `Mail.Send`
+
+1. Dentro de la app → **API permissions** → **Add a permission** → **Microsoft Graph**.
+2. Selecciona **Application permissions** (no Delegated) → busca `Mail.Send` → **Add**.
+3. Haz clic en **Grant admin consent for [tu organización]** y confirma.
+
+### 4. Configurar `.env`
+
+```env
+NOTIFICATION_CHANNEL=email
+EMAIL_FROM=tu.nombre@tudominio.com
+EMAIL_TO=destinatario@ejemplo.com,otro@ejemplo.com
+AZURE_TENANT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+AZURE_CLIENT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+AZURE_CLIENT_SECRET=el_valor_del_secreto
+```
+
+> `EMAIL_FROM` debe ser un buzón real de tu tenant M365. La app actúa en nombre de ese usuario gracias al permiso `Mail.Send` de tipo Application.
+
+### Nota sobre spam
+
+Los correos enviados desde apps de Azure sin interacción humana pueden acabar en la carpeta
+de Spam o Promociones del destinatario. La primera vez, márcalo como "No es spam" para que
+los siguientes lleguen al inbox.
 
 ---
 
@@ -97,24 +148,8 @@ Editables sin tocar Python:
 | Archivo | Uso |
 |---------|-----|
 | `config/templates/report_html.html` | Visor HTML interactivo de eventos |
-| `config/templates/teams_title.txt` | Título del mensaje de Teams |
-| `config/templates/teams_body.txt` | Cuerpo del mensaje de Teams |
-| `config/templates/email_subject.txt` | Asunto del email |
-| `config/templates/email_html.html` | Cuerpo HTML del email |
-| `config/templates/email_plain.txt` | Cuerpo texto plano del email |
-
-### Teams con Workflows / Power Automate
-
-La integración de Teams funciona bien con los webhooks modernos de Workflows en lugar de los conectores legacy.
-
-Cuando `TEAMS_WEBHOOK_URL` apunta a un flujo de Power Automate, el scanner envía:
-
-- Una Adaptive Card lista para publicar en Teams en el campo `message`
-- Un resumen en markdown en `summary_markdown`
-- Metadatos del escaneo (`title`, `scan_date`, `total_events`, `sources_count`, `days_ahead`)
-- El HTML generado como adjunto serializado en `report_file.file_name`, `report_file.content_type` y `report_file.content_base64`
-
-Esto permite que el flujo publique el resumen en Teams y, si lo necesitas, cree o comparta el HTML adjunto desde SharePoint, OneDrive o cualquier otro conector del flujo.
+| `config/templates/email_subject.txt` | Asunto del email (`{total_events}`, `{today_date}`) |
+| `config/templates/email_html.html` | Cuerpo HTML del email (resumen + contadores) |
 
 ---
 
@@ -137,30 +172,28 @@ y ejecuta `uv run scripts/generate_html.py`.
 
 ```
 radar-eventos/
+├── .env.example                     # Plantilla de variables de entorno
 ├── config/
-│   ├── settings.json            # Parámetros operativos
-│   ├── sources.json             # 48 fuentes monitorizadas
+│   ├── settings.json                # Parámetros operativos
+│   ├── sources.json                 # 48 fuentes monitorizadas
 │   └── templates/
-│       ├── report_html.html     # Visor HTML interactivo
-│       ├── teams_title.txt
-│       ├── teams_body.txt
-│       ├── email_subject.txt
-│       ├── email_html.html
-│       └── email_plain.txt
+│       ├── report_html.html         # Visor HTML interactivo
+│       ├── email_subject.txt        # Asunto del email
+│       └── email_html.html          # Cuerpo del email
 ├── src/
-│   ├── scanner.py               # Orquestador principal
-│   ├── extractor.py             # Pipeline de extracción estructurada con LM Studio
-│   ├── fetcher.py               # Descarga y limpieza de páginas web
-│   ├── events.py                # Filtrado y agrupación de eventos
-│   ├── reports.py               # Generación de informes TXT y HTML
-│   ├── config.py                # Carga de configuración
-│   ├── log_setup.py             # Configuración de logging
-│   ├── notifications/           # Envío por Teams y email
-│   └── llm/                     # Cliente LM Studio
+│   ├── scanner.py                   # Orquestador principal
+│   ├── extractor.py                 # Pipeline de extracción estructurada con LM Studio
+│   ├── fetcher.py                   # Descarga y limpieza de páginas web
+│   ├── events.py                    # Filtrado y agrupación de eventos
+│   ├── reports.py                   # Generación de informes TXT y HTML
+│   ├── config.py                    # Carga de configuración
+│   ├── log_setup.py                 # Configuración de logging
+│   ├── notifications/               # Envío por email (Graph API)
+│   └── llm/                         # Cliente LM Studio
 ├── scripts/
-│   └── generate_html.py         # Regenera el HTML sin relanzar el scan
-├── reports/                     # Informes generados (auto-generado)
-├── logs/                        # Logs de ejecución (auto-generado)
+│   └── generate_html.py             # Regenera el HTML sin relanzar el scan
+├── reports/                         # Informes generados (auto-generado)
+├── logs/                            # Logs de ejecución (auto-generado)
 └── README.md
 ```
 

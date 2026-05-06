@@ -19,16 +19,13 @@
   "retry_backoff": 2,                // multiplicador de espera entre reintentos (1s, 2s, 4s…)
 
   // ── Notificaciones ────────────────────────────────────────────────────────
-  "notification_channel": "none",    // teams | email | none
+  "notification_channel": "none",    // email | none
 
   // ── Rutas ─────────────────────────────────────────────────────────────────
   "sources_file": "config/sources.json",
   "report_html_file": "config/templates/report_html.html",
   "email_subject_file": "config/templates/email_subject.txt",
   "email_html_file": "config/templates/email_html.html",
-  "email_plain_file": "config/templates/email_plain.txt",
-  "teams_title_file": "config/templates/teams_title.txt",
-  "teams_body_file": "config/templates/teams_body.txt",
 
   // ── Prompts ───────────────────────────────────────────────────────────────
   "extractor_system_prompt_file": "config/prompts/system_prompt.txt",

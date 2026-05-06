@@ -106,9 +106,6 @@ LMSTUDIO_TOOL_RESULT_CHARS = max(
 EMAIL_FROM = os.environ.get("EMAIL_FROM")
 EMAIL_TO   = os.environ.get("EMAIL_TO")
 
-# ── Teams ─────────────────────────────────────────────────────────────────────
-TEAMS_WEBHOOK_URL = os.environ.get("TEAMS_WEBHOOK_URL")
-
 # ── Azure / Graph API ─────────────────────────────────────────────────────────
 AZURE_TENANT_ID     = os.environ.get("AZURE_TENANT_ID")
 AZURE_CLIENT_ID     = os.environ.get("AZURE_CLIENT_ID")
@@ -120,7 +117,7 @@ MAX_WORKERS = max(1, int(os.environ.get("MAX_WORKERS", SETTINGS.get("max_workers
 RETRY_ATTEMPTS = max(1, int(os.environ.get("RETRY_ATTEMPTS", SETTINGS.get("retry_attempts", 3))))
 RETRY_BACKOFF = max(1, int(os.environ.get("RETRY_BACKOFF", SETTINGS.get("retry_backoff", 2))))
 NOTIFICATION_CHANNEL = os.environ.get(
-    "NOTIFICATION_CHANNEL", SETTINGS.get("notification_channel", "teams")
+    "NOTIFICATION_CHANNEL", SETTINGS.get("notification_channel", "none")
 ).lower()
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
@@ -131,7 +128,4 @@ EXTRACTOR_SYSTEM_PROMPT = load_text_file(resolve_path(SETTINGS["extractor_system
 EXTRACTOR_USER_PROMPT   = load_text_file(resolve_path(SETTINGS["extractor_user_prompt_file"]))
 EMAIL_SUBJECT_TEMPLATE  = load_text_file(resolve_path(SETTINGS["email_subject_file"]))
 EMAIL_HTML_TEMPLATE     = load_text_file(resolve_path(SETTINGS["email_html_file"]))
-EMAIL_PLAIN_TEMPLATE    = load_text_file(resolve_path(SETTINGS["email_plain_file"]))
-TEAMS_TITLE_TEMPLATE    = load_text_file(resolve_path(SETTINGS["teams_title_file"]))
-TEAMS_BODY_TEMPLATE     = load_text_file(resolve_path(SETTINGS["teams_body_file"]))
 REPORT_HTML_TEMPLATE    = load_text_file(resolve_path(SETTINGS["report_html_file"]))

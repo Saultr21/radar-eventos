@@ -13,10 +13,8 @@ from config import (
     AZURE_CLIENT_ID,
     AZURE_CLIENT_SECRET,
     AZURE_TENANT_ID,
-    DAYS_AHEAD,
     EMAIL_FROM,
     EMAIL_HTML_TEMPLATE,
-    EMAIL_PLAIN_TEMPLATE,
     EMAIL_SUBJECT_TEMPLATE,
     EMAIL_TO,
 )
@@ -32,27 +30,6 @@ def build_email_html(new_events: list[dict], scan_date: str) -> str:
         sources_count=len(group_events_by_source(new_events)),
     )
 
-
-def build_email_plain(new_events: list[dict], scan_date: str) -> str:
-    lines: list[str] = []
-    for ev in new_events:
-        lines.extend([
-            f"[{ev.get('type', '').upper()}] {ev.get('title', '')}",
-            f"  Fecha:      {ev.get('date', '—')}",
-            f"  Lugar:      {ev.get('location', '—')}",
-            f"  Precio:     {ev.get('price', '—')}",
-            f"  Organiza:   {ev.get('association', '—')}",
-            f"  Descripcion:{ev.get('description', '')}",
-            f"  Link:       {ev.get('url', '—')}",
-            "",
-        ])
-    return EMAIL_PLAIN_TEMPLATE.format(
-        scan_date=scan_date,
-        total_events=len(new_events),
-        sources_count=len(group_events_by_source(new_events)),
-        days_ahead=DAYS_AHEAD,
-        event_lines="\n".join(lines).strip(),
-    )
 
 
 def build_email_subject(total_events: int, today: datetime) -> str:
@@ -81,7 +58,6 @@ def _get_graph_token() -> str:
 def send_email(
     subject: str,
     html_body: str,
-    plain_body: str,
     attachment_path: Path | None = None,
 ) -> None:
     if not EMAIL_FROM or not EMAIL_TO:
