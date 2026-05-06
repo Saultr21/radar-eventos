@@ -1,6 +1,6 @@
 """
 config.py
-Carga y expone todos los ajustes del proyecto desde settings.json y variables de entorno.
+Carga y expone todos los ajustes del proyecto desde variables de entorno (.env).
 """
 import os
 import json
@@ -43,64 +43,28 @@ def load_optional_text_file(path: Path, fallback: str) -> str:
     return load_text_file(path)
 
 
-SETTINGS_FILE = resolve_path(os.environ.get("SETTINGS_FILE", "config/settings.json"))
-SETTINGS = load_json_file(SETTINGS_FILE)
+# ── Modelo / LLM ──────────────────────────────────────────────────────────────
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", "lmstudio")
+MODEL_NAME   = os.environ.get("MODEL_NAME", "qwen3.5-9b")
+MAX_TOKENS   = int(os.environ.get("MAX_TOKENS", "8000"))
 
-# ── Modelo ────────────────────────────────────────────────────────────────────
-LLM_PROVIDER = os.environ.get("LLM_PROVIDER", SETTINGS.get("llm_provider", "lmstudio"))
-MODEL_NAME = os.environ.get("MODEL_NAME", SETTINGS.get("model", "qwen3.5-9b"))
-MAX_TOKENS = int(os.environ.get("MAX_TOKENS", SETTINGS.get("max_tokens", 8000)))
 # ── LM Studio ─────────────────────────────────────────────────────────────────
-LMSTUDIO_BASE_URL = os.environ.get(
-    "LMSTUDIO_BASE_URL", SETTINGS.get("lmstudio_base_url", "http://localhost:1234/v1")
-)
-LMSTUDIO_API_TOKEN = os.environ.get("LMSTUDIO_API_TOKEN")
-LMSTUDIO_API_MODE = os.environ.get("LMSTUDIO_API_MODE", SETTINGS.get("lmstudio_api_mode", "project-mcp"))
-LMSTUDIO_CONTEXT_WINDOW = int(
-    os.environ.get("LMSTUDIO_CONTEXT_WINDOW", SETTINGS.get("lmstudio_context_window", 34096))
-)
-LMSTUDIO_MODEL_TTL = int(
-    os.environ.get("LMSTUDIO_MODEL_TTL", SETTINGS.get("lmstudio_model_ttl", 7200))
-)
-LMSTUDIO_WEB_MCP_PORT = int(
-    os.environ.get("LMSTUDIO_WEB_MCP_PORT", SETTINGS.get("lmstudio_web_mcp_port", 8765))
-)
-LMSTUDIO_WEB_MCP_URL = os.environ.get(
-    "LMSTUDIO_WEB_MCP_URL",
-    f"http://127.0.0.1:{LMSTUDIO_WEB_MCP_PORT}/mcp",
-)
-LMSTUDIO_TOOL_ROUNDS = max(
-    1,
-    int(os.environ.get("LMSTUDIO_TOOL_ROUNDS", str(SETTINGS.get("lmstudio_tool_rounds", 6)))),
-)
+LMSTUDIO_BASE_URL        = os.environ.get("LMSTUDIO_BASE_URL", "http://localhost:1234/v1")
+LMSTUDIO_API_TOKEN       = os.environ.get("LMSTUDIO_API_TOKEN")
+LMSTUDIO_API_MODE        = os.environ.get("LMSTUDIO_API_MODE", "project-mcp")
+LMSTUDIO_CONTEXT_WINDOW  = int(os.environ.get("LMSTUDIO_CONTEXT_WINDOW", "34096"))
+LMSTUDIO_MODEL_TTL       = int(os.environ.get("LMSTUDIO_MODEL_TTL", "7200"))
+LMSTUDIO_WEB_MCP_PORT    = int(os.environ.get("LMSTUDIO_WEB_MCP_PORT", "8765"))
+LMSTUDIO_WEB_MCP_URL     = os.environ.get("LMSTUDIO_WEB_MCP_URL", f"http://127.0.0.1:{LMSTUDIO_WEB_MCP_PORT}/mcp")
+LMSTUDIO_TOOL_ROUNDS     = max(1, int(os.environ.get("LMSTUDIO_TOOL_ROUNDS", "6")))
+LMSTUDIO_REQUEST_TIMEOUT = int(os.environ.get("LMSTUDIO_REQUEST_TIMEOUT", "300"))
+LMSTUDIO_PARALLEL_CALLS  = max(0, int(os.environ.get("LMSTUDIO_PARALLEL_CALLS", "1")))
+LMSTUDIO_FETCH_CHARS     = max(1000, int(os.environ.get("LMSTUDIO_FETCH_CHARS", "12000")))
+LMSTUDIO_TOOL_RESULT_CHARS = max(1000, int(os.environ.get("LMSTUDIO_TOOL_RESULT_CHARS", str(LMSTUDIO_FETCH_CHARS))))
 
 # ── Extractor ────────────────────────────────────────────────────────────────
-EXTRACTOR_MAX_SUBPAGES = max(
-    0,
-    int(os.environ.get("EXTRACTOR_MAX_SUBPAGES", SETTINGS.get("extractor_max_subpages", 3))),
-)
-EXTRACTOR_PER_PAGE_CHARS = max(
-    1000,
-    int(os.environ.get("EXTRACTOR_PER_PAGE_CHARS", SETTINGS.get("extractor_per_page_chars", 6000))),
-)
-LMSTUDIO_REQUEST_TIMEOUT = int(os.environ.get("LMSTUDIO_REQUEST_TIMEOUT", SETTINGS.get("lmstudio_request_timeout", 300)))
-# Peticiones concurrentes permitidas contra LM Studio. 0 = sin límite (lo limita
-# MAX_WORKERS). LM Studio moderno hace batching; serializar todo es lo que hacía
-# que el escaneo fuera lento.
-LMSTUDIO_PARALLEL_CALLS = max(
-    0,
-    int(os.environ.get("LMSTUDIO_PARALLEL_CALLS", SETTINGS.get("lmstudio_parallel_calls", 0))),
-)
-LMSTUDIO_FETCH_CHARS = max(
-    1000, int(os.environ.get("LMSTUDIO_FETCH_CHARS", SETTINGS.get("lmstudio_fetch_chars", 4000)))
-)
-LMSTUDIO_TOOL_RESULT_CHARS = max(
-    1000,
-    int(os.environ.get(
-        "LMSTUDIO_TOOL_RESULT_CHARS",
-        str(SETTINGS.get("lmstudio_tool_result_chars", LMSTUDIO_FETCH_CHARS)),
-    )),
-)
+EXTRACTOR_MAX_SUBPAGES   = max(0, int(os.environ.get("EXTRACTOR_MAX_SUBPAGES", "3")))
+EXTRACTOR_PER_PAGE_CHARS = max(1000, int(os.environ.get("EXTRACTOR_PER_PAGE_CHARS", "6000")))
 
 # ── Email ─────────────────────────────────────────────────────────────────────
 EMAIL_FROM = os.environ.get("EMAIL_FROM")
@@ -112,20 +76,18 @@ AZURE_CLIENT_ID     = os.environ.get("AZURE_CLIENT_ID")
 AZURE_CLIENT_SECRET = os.environ.get("AZURE_CLIENT_SECRET")
 
 # ── Escaneo ───────────────────────────────────────────────────────────────────
-DAYS_AHEAD = int(os.environ.get("DAYS_AHEAD", SETTINGS.get("days_ahead", 30)))
-MAX_WORKERS = max(1, int(os.environ.get("MAX_WORKERS", SETTINGS.get("max_workers", 6))))
-RETRY_ATTEMPTS = max(1, int(os.environ.get("RETRY_ATTEMPTS", SETTINGS.get("retry_attempts", 3))))
-RETRY_BACKOFF = max(1, int(os.environ.get("RETRY_BACKOFF", SETTINGS.get("retry_backoff", 2))))
-NOTIFICATION_CHANNEL = os.environ.get(
-    "NOTIFICATION_CHANNEL", SETTINGS.get("notification_channel", "none")
-).lower()
+DAYS_AHEAD           = int(os.environ.get("DAYS_AHEAD", "30"))
+MAX_WORKERS          = max(1, int(os.environ.get("MAX_WORKERS", "8")))
+RETRY_ATTEMPTS       = max(1, int(os.environ.get("RETRY_ATTEMPTS", "3")))
+RETRY_BACKOFF        = max(1, int(os.environ.get("RETRY_BACKOFF", "2")))
+NOTIFICATION_CHANNEL = os.environ.get("NOTIFICATION_CHANNEL", "none").lower()
 
 # ── Rutas ─────────────────────────────────────────────────────────────────────
-SOURCES = load_json_file(resolve_path(SETTINGS["sources_file"]))
+SOURCES = load_json_file(resolve_path(os.environ.get("SOURCES_FILE", "config/sources.json")))
 
 # ── Plantillas ────────────────────────────────────────────────────────────────
-EXTRACTOR_SYSTEM_PROMPT = load_text_file(resolve_path(SETTINGS["extractor_system_prompt_file"]))
-EXTRACTOR_USER_PROMPT   = load_text_file(resolve_path(SETTINGS["extractor_user_prompt_file"]))
-EMAIL_SUBJECT_TEMPLATE  = load_text_file(resolve_path(SETTINGS["email_subject_file"]))
-EMAIL_HTML_TEMPLATE     = load_text_file(resolve_path(SETTINGS["email_html_file"]))
-REPORT_HTML_TEMPLATE    = load_text_file(resolve_path(SETTINGS["report_html_file"]))
+EXTRACTOR_SYSTEM_PROMPT = load_text_file(resolve_path(os.environ.get("EXTRACTOR_SYSTEM_PROMPT_FILE", "config/prompts/system_prompt.txt")))
+EXTRACTOR_USER_PROMPT   = load_text_file(resolve_path(os.environ.get("EXTRACTOR_USER_PROMPT_FILE",   "config/prompts/user_prompt.txt")))
+EMAIL_SUBJECT_TEMPLATE  = load_text_file(resolve_path(os.environ.get("EMAIL_SUBJECT_FILE",           "config/templates/email_subject.txt")))
+EMAIL_HTML_TEMPLATE     = load_text_file(resolve_path(os.environ.get("EMAIL_HTML_FILE",              "config/templates/email_html.html")))
+REPORT_HTML_TEMPLATE    = load_text_file(resolve_path(os.environ.get("REPORT_HTML_FILE",             "config/templates/report_html.html")))

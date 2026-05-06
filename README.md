@@ -50,35 +50,26 @@ El scan con 48 fuentes tarda entre 4 y 6 minutos.
 
 ## Configuración
 
-### `config/settings.json`
-
-| Campo | Descripción |
-|-------|-------------|
-| `model` | Nombre del modelo en LM Studio |
-| `lmstudio_base_url` | URL de la API de LM Studio (por defecto `http://localhost:1234/v1`) |
-| `lmstudio_context_window` | Ventana de contexto del modelo en tokens |
-| `extractor_max_subpages` | Subpáginas adicionales a descargar por fuente (por defecto 3) |
-| `extractor_per_page_chars` | Máximo de caracteres por página enviados al LLM |
-| `days_ahead` | Ventana de búsqueda en días (por defecto 30) |
-| `max_workers` | Fuentes procesadas en paralelo |
-| `notification_channel` | `email` o `none` |
-
-### Variables de entorno
-
-Copia `.env.example` a `.env` y rellena los valores:
+Toda la configuración se gestiona mediante variables de entorno. Copia `.env.example` a `.env` y ajusta los valores:
 
 ```bash
 cp .env.example .env
 ```
 
+El `.env.example` incluye todos los parámetros disponibles con sus valores por defecto y comentarios explicativos. Los únicos campos obligatorios para el envío de email son `EMAIL_FROM`, `EMAIL_TO` y las credenciales de Azure AD.
+
 | Variable | Descripción |
 |----------|-------------|
-| `NOTIFICATION_CHANNEL` | `email` o `none` (sobrescribe el valor de `settings.json`) |
+| `LMSTUDIO_BASE_URL` | URL de la API de LM Studio |
+| `MODEL_NAME` | Nombre del modelo en LM Studio |
+| `NOTIFICATION_CHANNEL` | `email` o `none` |
 | `EMAIL_FROM` | Buzón desde el que se envía (usuario de tu tenant M365) |
 | `EMAIL_TO` | Destinatarios separados por comas |
 | `AZURE_TENANT_ID` | ID del tenant de Azure AD |
 | `AZURE_CLIENT_ID` | ID de la app registrada en Azure AD |
 | `AZURE_CLIENT_SECRET` | Valor del secreto de la app (no el ID) |
+| `DAYS_AHEAD` | Ventana de búsqueda en días (por defecto 30) |
+| `MAX_WORKERS` | Fuentes procesadas en paralelo (por defecto 8) |
 
 ---
 
@@ -172,9 +163,8 @@ y ejecuta `uv run scripts/generate_html.py`.
 
 ```
 radar-eventos/
-├── .env.example                     # Plantilla de variables de entorno
+├── .env.example                     # Plantilla de variables de entorno (con valores por defecto)
 ├── config/
-│   ├── settings.json                # Parámetros operativos
 │   ├── sources.json                 # 48 fuentes monitorizadas
 │   └── templates/
 │       ├── report_html.html         # Visor HTML interactivo
