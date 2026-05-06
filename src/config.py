@@ -49,12 +49,13 @@ SETTINGS = load_json_file(SETTINGS_FILE)
 # ── Modelo ────────────────────────────────────────────────────────────────────
 MODEL_NAME = os.environ.get("MODEL_NAME", SETTINGS.get("model", "qwen3.5-9b"))
 MAX_TOKENS = int(os.environ.get("MAX_TOKENS", SETTINGS.get("max_tokens", 8000)))
-
+LLM_PROVIDER = os.environ.get("LLM_PROVIDER", SETTINGS.get("llm_provider", "lmstudio"))
 # ── LM Studio ─────────────────────────────────────────────────────────────────
 LMSTUDIO_BASE_URL = os.environ.get(
     "LMSTUDIO_BASE_URL", SETTINGS.get("lmstudio_base_url", "http://localhost:1234/v1")
 )
 LMSTUDIO_API_TOKEN = os.environ.get("LMSTUDIO_API_TOKEN")
+LMSTUDIO_API_MODE = os.environ.get("LMSTUDIO_API_MODE", SETTINGS.get("lmstudio_api_mode", "project-mcp"))
 LMSTUDIO_CONTEXT_WINDOW = int(
     os.environ.get("LMSTUDIO_CONTEXT_WINDOW", SETTINGS.get("lmstudio_context_window", 34096))
 )

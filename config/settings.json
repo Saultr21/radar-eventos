@@ -1,7 +1,7 @@
 {
   // ── LM Studio ─────────────────────────────────────────────────────────────
   "model": "qwen3.5-9b",              // nombre del modelo tal como aparece en LM Studio
-  "lmstudio_base_url": "http://localhost:1234/v1",
+  "lmstudio_base_url": "http://192.168.1.60:1234/v1",
   "lmstudio_context_window": 34096,  // ventana de contexto del modelo en tokens
   "lmstudio_model_ttl": 7200,        // segundos que LM Studio mantiene el modelo cargado
   "lmstudio_web_mcp_port": 8765,     // puerto del servidor MCP (project-mcp)

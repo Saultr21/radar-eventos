@@ -10,6 +10,7 @@ from datetime import datetime
 
 from config import (
     DAYS_AHEAD,
+    LLM_PROVIDER,
     MAX_WORKERS,
     RETRY_ATTEMPTS,
     RETRY_BACKOFF,
@@ -131,12 +132,12 @@ def main() -> None:
     save_events_report(all_found_events, scan_date, DAYS_AHEAD)
     log.info("Informe TXT  : reports/latest_new_events.txt")
 
-    save_events_html_report(all_found_events, scan_date, DAYS_AHEAD)
+    report_html_path = save_events_html_report(all_found_events, scan_date, DAYS_AHEAD)
     log.info("Informe HTML : reports/latest_new_events.html")
 
     if all_found_events:
         log.info("Enviando notificación (%d evento(s))...", len(all_found_events))
-        send_notification(all_found_events, scan_date, today)
+        send_notification(all_found_events, scan_date, today, report_html_path=report_html_path)
     else:
         log.info("Sin eventos encontrados — notificación omitida")
 

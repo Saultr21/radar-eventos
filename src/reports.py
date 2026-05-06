@@ -75,7 +75,7 @@ def save_events_html_report(
     scan_date: str,
     days_ahead: int,
     output_path: Path | None = None,
-) -> None:
+) -> Path:
     """Genera reports/latest_new_events.html usando la plantilla HTML configurada."""
     reports_dir = ROOT_DIR / "reports"
     reports_dir.mkdir(exist_ok=True)
@@ -110,3 +110,4 @@ def save_events_html_report(
     report_path.write_text(html, encoding="utf-8")
     archive_html.write_text(html, encoding="utf-8")
     log.info(f"Informe HTML guardado en: {report_path}  +  {archive_html.name}")
+    return report_path

@@ -5,7 +5,12 @@ Punto de entrada unificado para el envío de notificaciones.
 from config import NOTIFICATION_CHANNEL
 
 
-def send_notification(new_events: list[dict], scan_date: str, today) -> None:
+def send_notification(
+    new_events: list[dict],
+    scan_date: str,
+    today,
+    report_html_path=None,
+) -> None:
     """Envía la notificación al canal configurado (teams | email | none)."""
     if NOTIFICATION_CHANNEL == "none":
         import logging
@@ -16,7 +21,7 @@ def send_notification(new_events: list[dict], scan_date: str, today) -> None:
 
     if NOTIFICATION_CHANNEL == "teams":
         from notifications.teams import build_teams_payload, send_teams
-        send_teams(build_teams_payload(new_events, scan_date))
+        send_teams(build_teams_payload(new_events, scan_date, report_html_path=report_html_path))
         return
 
     if NOTIFICATION_CHANNEL == "email":

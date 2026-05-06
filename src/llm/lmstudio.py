@@ -15,6 +15,7 @@ import subprocess
 import sys
 import threading
 import time
+from urllib.parse import urlparse
 from pathlib import Path
 
 import httpx
@@ -236,6 +237,15 @@ def _lmstudio_root() -> str:
     return LMSTUDIO_BASE_URL.rstrip("/").removesuffix("/v1")
 
 
+def _uses_local_lmstudio(base: str) -> bool:
+    """Indica si la URL de LM Studio apunta a esta máquina.
+    Solo en ese caso tiene sentido invocar el CLI local `lms`."""
+    host = (urlparse(base).hostname or "").lower()
+    if not host:
+        return False
+    return host in {"localhost", "127.0.0.1", "::1"}
+
+
 def _get_loaded_context(base: str, headers: dict) -> tuple[int, int]:
     """Devuelve (loaded_ctx, max_ctx) de la instancia cuyo identifier es
     exactamente MODEL_NAME (el que va a usar la API OpenAI-compat).
@@ -349,6 +359,27 @@ def ensure_model_loaded() -> None:
                 "Modelo '%s' cargado en LM Studio (ctx=%d, max=%d)",
                 MODEL_NAME, loaded_ctx, max_ctx,
             )
+            _MODEL_LOADED = True
+            return
+
+        if not _uses_local_lmstudio(base):
+            log.info(
+                "LM Studio remoto detectado en %s. Se omite `lms load` local; "
+                "usa el modelo '%s' cargado en ese servidor.",
+                base, MODEL_NAME,
+            )
+            if loaded_ctx > 0:
+                log.warning(
+                    "El servidor remoto reporta ctx=%d (< %d requerido). "
+                    "El extractor truncará el input hasta que recargues el modelo allí.",
+                    loaded_ctx, LMSTUDIO_CONTEXT_WINDOW,
+                )
+            else:
+                log.warning(
+                    "No se pudo verificar un modelo cargado en el servidor remoto %s. "
+                    "No se intentará `lms load` desde esta máquina.",
+                    base,
+                )
             _MODEL_LOADED = True
             return
 

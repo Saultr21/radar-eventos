@@ -67,9 +67,12 @@ El scan con 48 fuentes tarda entre 4 y 6 minutos.
 
 | Variable | Descripción |
 |----------|-------------|
-| `TEAMS_WEBHOOK_URL` | Webhook del canal de Teams |
+| `NOTIFICATION_CHANNEL` | Sobrescribe `notification_channel` (`teams`, `email`, `none`) |
+| `TEAMS_WEBHOOK_URL` | URL del workflow/webhook de Teams o Power Automate |
 | `EMAIL_FROM` / `EMAIL_PASSWORD` / `EMAIL_TO` | Credenciales SMTP |
 | `SMTP_HOST` / `SMTP_PORT` | Servidor SMTP (por defecto Gmail, 587) |
+
+Para uso local, puedes definir estas variables en `.env` (ya ignorado por git).
 
 ---
 
@@ -99,6 +102,19 @@ Editables sin tocar Python:
 | `config/templates/email_subject.txt` | Asunto del email |
 | `config/templates/email_html.html` | Cuerpo HTML del email |
 | `config/templates/email_plain.txt` | Cuerpo texto plano del email |
+
+### Teams con Workflows / Power Automate
+
+La integración de Teams funciona bien con los webhooks modernos de Workflows en lugar de los conectores legacy.
+
+Cuando `TEAMS_WEBHOOK_URL` apunta a un flujo de Power Automate, el scanner envía:
+
+- Una Adaptive Card lista para publicar en Teams en el campo `message`
+- Un resumen en markdown en `summary_markdown`
+- Metadatos del escaneo (`title`, `scan_date`, `total_events`, `sources_count`, `days_ahead`)
+- El HTML generado como adjunto serializado en `report_file.file_name`, `report_file.content_type` y `report_file.content_base64`
+
+Esto permite que el flujo publique el resumen en Teams y, si lo necesitas, cree o comparta el HTML adjunto desde SharePoint, OneDrive o cualquier otro conector del flujo.
 
 ---
 
