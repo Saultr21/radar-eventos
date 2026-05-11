@@ -1,25 +1,25 @@
-﻿# Radar de Eventos Empresariales — Canarias
+# Radar de Eventos Empresariales — Canarias
 
-Sistema de monitorización automática que escanea las webs de 54 asociaciones empresariales
-de Canarias y detecta eventos nuevos en los próximos 30 días.
+Sistema de monitorización automática que escanea las webs de 48 asociaciones empresariales
+de Canarias y extrae eventos en los próximos 30 días.
 
-Usa **LM Studio en local** con un modelo Qwen como motor de extracción, con herramientas de
-búsqueda web y descarga de páginas. Al terminar genera un informe HTML interactivo y puede
-enviar notificación a Teams o email.
+Usa **LM Studio en local** con el modelo Qwen3.5-9B como motor de extracción estructurada.
+Al terminar genera un informe HTML interactivo y un informe TXT, y puede enviar el informe
+por email con el HTML adjunto.
 
 ---
 
 ## Cómo funciona
 
-1. El script carga las 54 fuentes de `config/sources.json`.
-2. Para cada fuente lanza el modelo LM Studio con dos herramientas: `fetch_url` (descarga y
-   limpia el HTML de una URL) y `search_source_pages` (búsqueda complementaria).
-3. El modelo navega la web de cada asociación, extrae eventos con fecha en el rango indicado
-   y devuelve un JSON estructurado.
-4. Los eventos nuevos (no vistos antes) se guardan en `data/known_events.json`.
-5. Se genera `reports/latest_new_events.html` — visor interactivo con filtros — y
-   `reports/latest_new_events.txt` como respaldo legible.
-6. Si hay eventos nuevos, envía notificación al canal configurado (Teams o email).
+1. El scanner carga las 48 fuentes de `config/sources.json`.
+2. Para cada fuente descarga la página principal (y hasta 3 subpáginas relevantes).
+3. Llama al modelo LM Studio con `response_format: json_schema` — extrae título, fecha,
+   tipo, hora, lugar, precio, descripción y URL de cada evento.
+4. Los campos `time` y `location` se completan también desde datos estructurados JSON-LD
+   cuando el modelo los deja vacíos.
+5. Se generan `reports/latest_new_events.html` y `reports/latest_new_events.txt`, más
+   una copia con timestamp (`YYYY-MM-DD_HH-MM_events.*`) como archivo histórico.
+6. Si hay eventos y `NOTIFICATION_CHANNEL=email`, envía un correo con el HTML adjunto.
 
 ---
 
@@ -27,54 +27,94 @@ enviar notificación a Teams o email.
 
 - Python 3.11+
 - [LM Studio](https://lmstudio.ai) corriendo en local con el modelo `qwen/qwen3.5-9b` cargado
-- Dependencias Python: `pip install -r requirements.txt`
+- Dependencias Python: `uv sync`
 
 ---
 
 ## Ejecución
 
 ```bash
-# Activar entorno virtual (Windows)
-.venv\Scripts\activate
+# Instalar dependencias (primera vez)
+uv sync
 
 # Ejecutar el scan completo
-python src/scanner.py
+uv run src/scanner.py
+
+# Regenerar el HTML desde el último scan (sin relanzar el scan)
+uv run scripts/generate_html.py
 ```
 
-El scan con 54 fuentes tarda entre 30 y 90 minutos dependiendo de la velocidad del modelo.
+El scan con 48 fuentes tarda entre 4 y 6 minutos.
 
 ---
 
 ## Configuración
 
-### `config/settings.json` — parámetros operativos
+Toda la configuración se gestiona mediante variables de entorno. Copia `.env.example` a `.env` y ajusta los valores:
 
-```json
-{
-  "llm_provider": "lmstudio",
-  "model": "qwen/qwen3.5-9b",
-  "lmstudio_api_mode": "project-mcp",
-  "lmstudio_context_window": 34096,
-  "lmstudio_web_mcp_port": 8765,
-  "days_ahead": 30,
-  "max_workers": 4,
-  "notification_channel": "teams"
-}
+```bash
+cp .env.example .env
 ```
 
-| Campo | Descripción |
-|-------|-------------|
-| `days_ahead` | Ventana de búsqueda en días (por defecto 30) |
-| `max_workers` | Fuentes procesadas en paralelo |
-| `notification_channel` | `teams` o `email` |
-
-### Variables de entorno (`.env` o entorno del sistema)
+El `.env.example` incluye todos los parámetros disponibles con sus valores por defecto y comentarios explicativos. Los únicos campos obligatorios para el envío de email son `EMAIL_FROM`, `EMAIL_TO` y las credenciales de Azure AD.
 
 | Variable | Descripción |
 |----------|-------------|
-| `TEAMS_WEBHOOK_URL` | Webhook del canal de Teams |
-| `EMAIL_FROM` / `EMAIL_PASSWORD` / `EMAIL_TO` | Credenciales SMTP (si usas email) |
-| `SMTP_HOST` / `SMTP_PORT` | Servidor SMTP (por defecto Gmail) |
+| `LMSTUDIO_BASE_URL` | URL de la API de LM Studio |
+| `MODEL_NAME` | Nombre del modelo en LM Studio |
+| `NOTIFICATION_CHANNEL` | `email` o `none` |
+| `EMAIL_FROM` | Buzón desde el que se envía (usuario de tu tenant M365) |
+| `EMAIL_TO` | Destinatarios separados por comas |
+| `AZURE_TENANT_ID` | ID del tenant de Azure AD |
+| `AZURE_CLIENT_ID` | ID de la app registrada en Azure AD |
+| `AZURE_CLIENT_SECRET` | Valor del secreto de la app (no el ID) |
+| `DAYS_AHEAD` | Ventana de búsqueda en días (por defecto 30) |
+| `MAX_WORKERS` | Fuentes procesadas en paralelo (por defecto 8) |
+
+---
+
+## Configuración del envío de email (Microsoft Graph API)
+
+El correo se envía mediante la API de Microsoft Graph con OAuth2 `client_credentials`,
+sin contraseñas ni SMTP. El email incluye un resumen en el cuerpo y el informe completo
+(`latest_new_events.html`) adjunto.
+
+### 1. Registrar una app en Azure AD
+
+1. Ve a [portal.azure.com](https://portal.azure.com) → **Microsoft Entra ID** → **App registrations** → **New registration**.
+2. Dale un nombre (p. ej. `radar-eventos`) y haz clic en **Register**.
+3. Anota el **Application (client) ID** y el **Directory (tenant) ID** — los necesitarás en `.env`.
+
+### 2. Crear un secreto de cliente
+
+1. Dentro de la app → **Certificates & secrets** → **New client secret**.
+2. Elige una duración y haz clic en **Add**.
+3. Copia el **Value** del secreto (solo se muestra una vez). Es el `AZURE_CLIENT_SECRET`.
+
+### 3. Conceder el permiso `Mail.Send`
+
+1. Dentro de la app → **API permissions** → **Add a permission** → **Microsoft Graph**.
+2. Selecciona **Application permissions** (no Delegated) → busca `Mail.Send` → **Add**.
+3. Haz clic en **Grant admin consent for [tu organización]** y confirma.
+
+### 4. Configurar `.env`
+
+```env
+NOTIFICATION_CHANNEL=email
+EMAIL_FROM=tu.nombre@tudominio.com
+EMAIL_TO=destinatario@ejemplo.com,otro@ejemplo.com
+AZURE_TENANT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+AZURE_CLIENT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+AZURE_CLIENT_SECRET=el_valor_del_secreto
+```
+
+> `EMAIL_FROM` debe ser un buzón real de tu tenant M365. La app actúa en nombre de ese usuario gracias al permiso `Mail.Send` de tipo Application.
+
+### Nota sobre spam
+
+Los correos enviados desde apps de Azure sin interacción humana pueden acabar en la carpeta
+de Spam o Promociones del destinatario. La primera vez, márcalo como "No es spam" para que
+los siguientes lleguen al inbox.
 
 ---
 
@@ -92,32 +132,15 @@ Categorías disponibles: `Cámara`, `Patronal`, `Promoción`, `Clúster`, `AJE`,
 
 ---
 
-## Ajustar el prompt de extracción
-
-Edita `config/prompt_lmstudio.txt`. Variables disponibles:
-
-```
-{source_name}     nombre de la asociación
-{source_url}      URL principal
-{source_category} categoría
-{today_str}       fecha de hoy (DD/MM/YYYY)
-{horizon}         fecha límite de la ventana (DD/MM/YYYY)
-```
-
----
-
 ## Plantillas de notificación
 
 Editables sin tocar Python:
 
 | Archivo | Uso |
 |---------|-----|
-| `config/templates/teams_title.txt` | Título del mensaje de Teams |
-| `config/templates/teams_body.txt` | Cuerpo del mensaje de Teams |
-| `config/templates/email_subject.txt` | Asunto del email |
-| `config/templates/email_html.html` | Cuerpo HTML del email |
-| `config/templates/email_plain.txt` | Cuerpo texto plano del email |
 | `config/templates/report_html.html` | Visor HTML interactivo de eventos |
+| `config/templates/email_subject.txt` | Asunto del email (`{total_events}`, `{today_date}`) |
+| `config/templates/email_html.html` | Cuerpo HTML del email (resumen + contadores) |
 
 ---
 
@@ -125,57 +148,54 @@ Editables sin tocar Python:
 
 Tras cada scan se genera `reports/latest_new_events.html`. Ábrelo en cualquier navegador.
 
-Funcionalidades:
 - Búsqueda libre por título, descripción o asociación
 - Filtros por tipo de evento, categoría y asociación
 - Ordenación por fecha, título o asociación
 - Vista en tarjetas o tabla
-- Funciona offline como archivo adjunto (sin dependencias externas)
+- Funciona offline (sin dependencias externas)
 
-Para personalizar el diseño edita únicamente `config/templates/report_html.html`.
+Para actualizar el diseño sin relanzar el scan: edita `config/templates/report_html.html`
+y ejecuta `uv run scripts/generate_html.py`.
 
 ---
 
 ## Estructura del proyecto
 
 ```
-canarias-eventos/
+radar-eventos/
+├── .env.example                     # Plantilla de variables de entorno (con valores por defecto)
 ├── config/
-│   ├── prompt_lmstudio.txt      # Prompt editable de extracción (LM Studio)
-│   ├── prompt.txt               # Prompt genérico (otros proveedores)
-│   ├── settings.json            # Parámetros operativos
-│   ├── sources.json             # 54 fuentes monitorizadas
+│   ├── sources.json                 # 48 fuentes monitorizadas
 │   └── templates/
-│       ├── report_html.html     # Visor HTML interactivo (editable)
-│       ├── teams_title.txt
-│       ├── teams_body.txt
-│       ├── email_subject.txt
-│       ├── email_html.html
-│       └── email_plain.txt
+│       ├── report_html.html         # Visor HTML interactivo
+│       ├── email_subject.txt        # Asunto del email
+│       └── email_html.html          # Cuerpo del email
 ├── src/
-│   ├── scanner.py               # Orquestador principal
-│   ├── web_tools.py             # Herramientas de descarga y limpieza web
-│   ├── lmstudio_web_mcp_server.py  # Servidor MCP local para LM Studio
-│   └── scraper.py               # Utilidades de scraping
-├── data/
-│   └── known_events.json        # Caché de eventos ya notificados (auto-generado)
-├── reports/
-│   ├── latest_new_events.html   # Visor interactivo (auto-generado)
-│   └── latest_new_events.txt    # Informe texto plano (auto-generado)
-├── requirements.txt
+│   ├── scanner.py                   # Orquestador principal
+│   ├── extractor.py                 # Pipeline de extracción estructurada con LM Studio
+│   ├── fetcher.py                   # Descarga y limpieza de páginas web
+│   ├── events.py                    # Filtrado y agrupación de eventos
+│   ├── reports.py                   # Generación de informes TXT y HTML
+│   ├── config.py                    # Carga de configuración
+│   ├── log_setup.py                 # Configuración de logging
+│   ├── notifications/               # Envío por email (Graph API)
+│   └── llm/                         # Cliente LM Studio
+├── scripts/
+│   └── generate_html.py             # Regenera el HTML sin relanzar el scan
+├── reports/                         # Informes generados (auto-generado)
+├── logs/                            # Logs de ejecución (auto-generado)
 └── README.md
 ```
 
 ---
 
-## Fuentes monitorizadas (54)
+## Fuentes monitorizadas (48)
 
 ### Cámaras de Comercio (4)
 Cámara Gran Canaria · Cámara Tenerife · Cámara Lanzarote · Cámara Fuerteventura
 
-### Patronales y confederaciones (8)
-CCE · CEOE Tenerife · FEMEPA · AVAL Canarias · FEDECO Canarias · ASAGA (ASAJA) ·
-CEL Lanzarote · ASINCA
+### Patronales y confederaciones (6)
+CCE · CEOE Tenerife · FEDECO Canarias · ASAGA (ASAJA) · CEL Lanzarote · ASINCA
 
 ### Promoción económica (3)
 SPEGC · OBIDIC · PROEXCA
@@ -185,11 +205,11 @@ Clúster Marítimo (CMC) · Clúster Audiovisual · CET · Clúster Enoturismo �
 AEI Turismo Innova GC · Turisfera Tenerife · Smart Island (IncoLAB) ·
 Clúster Aeronáutico · OIC ITC Canarias
 
-### Jóvenes empresarios (3)
-AJE Las Palmas · AJE Tenerife · AJE Canarias
+### Jóvenes empresarios (2)
+AJE Tenerife · AJE Canarias
 
-### Emprendimiento e innovación (5)
-EMERGE · Canarias Destino Startup · Emprender en Canarias · APTE · PCTT
+### Emprendimiento e innovación (4)
+EMERGE · Emprender en Canarias · APTE · PCTT
 
 ### Turismo y hostelería (6)
 Ashotel Tenerife · ASOLAN Lanzarote · FEHT Las Palmas · FTL Lanzarote ·
@@ -213,17 +233,5 @@ INFECAR · Recinto Ferial de Tenerife
 ### Polígonos industriales (2)
 Parque Empresarial El Goro (AEGORO) · AMIXTA Arinaga
 
-### Otros (3)
-EFCA (Empresa Familiar) · AEDAL · AENAGA
-
-
----
-
-## Cómo funciona
-
-1. Cada lunes a las 08:00 (hora Madrid), GitHub Actions lanza el script automáticamente.
-2. El script llama a la API de Claude con búsqueda web real para cada una de las ~25 fuentes.
-3. Compara los eventos encontrados con una caché de eventos ya notificados.
-4. Si hay eventos nuevos, envía una notificación a Teams por webhook con fecha, lugar, precio y link.
-5. Actualiza la caché para no repetir notificaciones la semana siguiente.
-
+### Otros (1)
+EFCA (Empresa Familiar)

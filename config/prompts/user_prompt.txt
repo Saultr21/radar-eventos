@@ -1,0 +1,10 @@
+Asociación: {association}
+Categoría: {category}
+URL fuente: {source_url}
+Rango de fechas: {today_str} a {horizon}
+
+--- CONTENIDO ---
+{context}
+--- FIN ---
+
+Devuelve SOLO el JSON con la lista de eventos en el rango.

@@ -1,0 +1,38 @@
+"""
+notifications/__init__.py
+Punto de entrada unificado para el envío de notificaciones.
+"""
+from pathlib import Path
+
+from config import NOTIFICATION_CHANNEL
+
+
+def send_notification(
+    new_events: list[dict],
+    scan_date: str,
+    today,
+    report_html_path: Path | None = None,
+) -> None:
+    """Envía la notificación al canal configurado (email | none)."""
+    if NOTIFICATION_CHANNEL == "none":
+        import logging
+        logging.getLogger(__name__).info(
+            "Notificación omitida (notification_channel=none)"
+        )
+        return
+
+    if NOTIFICATION_CHANNEL == "email":
+        from notifications.email import (
+            build_email_html,
+            build_email_subject,
+            send_email,
+        )
+        subject = build_email_subject(len(new_events), today)
+        html = build_email_html(new_events, scan_date)
+        send_email(subject, html, attachment_path=report_html_path)
+        return
+
+    raise ValueError(
+        f"Canal de notificación no soportado: '{NOTIFICATION_CHANNEL}'. "
+        "Valores válidos: email | none"
+    )

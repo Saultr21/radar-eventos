@@ -1,1 +1,1 @@
-[BDN Canarias] {total_events} evento(s) nuevo(s) — semana del {today_date}
+[Radar Eventos] {total_events} evento(s) nuevo(s) — semana del {today_date}

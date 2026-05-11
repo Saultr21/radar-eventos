@@ -1,1 +1,0 @@
-Radar de Eventos Canarias: {total_events} evento(s) nuevo(s)

@@ -231,7 +231,6 @@ function renderCards(evs) {
         ${e.time ? `<span class="chip chip-date">🕐 ${e.time}</span>` : ''}
         ${e.location !== '—' ? `<span class="chip chip-loc">📍 ${esc(e.location)}</span>` : ''}
         ${e.price    !== '—' ? `<span class="chip chip-price">💶 ${esc(e.price)}</span>` : ''}
-        ${e.deadline          ? `<span class="chip chip-deadline">⏰ Inscr. ${esc(e.deadline)}</span>` : ''}
       </div>
     </div>
   `).join('');

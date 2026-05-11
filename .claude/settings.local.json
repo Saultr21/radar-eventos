@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run *)",
+      "Bash(PYTHONIOENCODING=utf-8 uv run python scripts/test_fetch.py)",
+      "Bash(PYTHONIOENCODING=utf-8 uv run python scripts/test_scan.py)",
+      "Bash(PYTHONIOENCODING=utf-8 uv run python scripts/test_report.py)",
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUNBUFFERED=1 uv run python scripts/test_scan.py)",
+      "Bash(git ls-tree *)",
+      "Bash(PYTHONIOENCODING=utf-8 uv run python -c \"import sys; sys.path.insert\\(0,'src'\\); import config, extractor; from llm import lmstudio; print\\('OK', 'parallel=', config.LMSTUDIO_PARALLEL_CALLS, 'workers=', config.MAX_WORKERS\\)\")",
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUNBUFFERED=1 uv run python scripts/test_scan.py ceoe)",
+      "WebSearch",
+      "WebFetch(domain:clustermc.es)",
+      "Bash(curl -s http://localhost:1234/api/v0/models)",
+      "Bash(curl -s http://localhost:1234/v1/models)",
+      "WebFetch(domain:deepwiki.com)",
+      "WebFetch(domain:lmstudio.ai)",
+      "Bash(where lms *)",
+      "Bash(lms --version)",
+      "Bash(lms ls *)",
+      "Bash(lms load *)",
+      "Bash(lms ps *)",
+      "Bash(PYTHONIOENCODING=utf-8 PYTHONUNBUFFERED=1 uv run python src/scanner.py)",
+      "Bash(grep -v \"URL:          $\")",
+      "WebFetch(domain:www.asaga-asaja.com)",
+      "WebFetch(domain:www.ahk.es)",
+      "WebFetch(domain:www.spegc.org)",
+      "Bash(grep -c \"URL:          $\" reports/latest_new_events.txt)",
+      "Bash(awk '/URL:/' reports/latest_new_events.txt)",
+      "PowerShell(head -30)",
+      "PowerShell([System.IO.Directory]::GetFiles\\(\"E:\\\\Cognitia\\\\radar-eventos\\\\src\"\\))",
+      "mcp__Claude_in_Chrome__computer",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "Bash(powershell -command \"Get-Clipboard\")",
+      "Bash(python -c ' *)",
+      "Bash(python src/scanner.py)",
+      "Bash(git merge *)",
+      "Bash(git stash *)"
+    ]
+  }
+}
